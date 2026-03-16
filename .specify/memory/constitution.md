@@ -1,73 +1,159 @@
-# [PROJECT_NAME] Constitution
+<!--
+SYNC IMPACT REPORT
+==================
+Version change: none → 1.0.0 (initial ratification)
+Modified principles: N/A (initial creation)
+Added sections:
+  - Core Principles (5 principles for game development)
+  - Code Quality Standards
+  - Development Workflow
+  - Governance
+Removed sections: N/A
+Templates requiring updates:
+  - plan-template.md: ✅ No updates needed (Constitution Check section is generic)
+  - spec-template.md: ✅ No updates needed (technology-agnostic)
+  - tasks-template.md: ✅ No updates needed (structure is adaptable)
+  - checklist-template.md: ✅ No updates needed (template is generic)
+Follow-up TODOs: None
+-->
 
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+# Endless Runner Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
+### I. Gameplay First
 
-<!-- Example: I. Library-First -->
+All development decisions prioritize player experience and game feel. Every feature
+must enhance engagement, responsiveness, or fun factor.
 
-[PRINCIPLE_1_DESCRIPTION]
+**Non-negotiable rules:**
 
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+- Frame rate MUST remain stable at 60 FPS minimum on target platforms
+- Input latency MUST be imperceptible (<100ms from input to visual feedback)
+- Collision detection MUST be accurate and fair to the player
+- Difficulty progression MUST feel challenging but achievable
 
-### [PRINCIPLE_2_NAME]
+**Rationale:** A game that doesn't feel good to play fails its primary purpose,
+regardless of technical sophistication.
 
-<!-- Example: II. CLI Interface -->
+### II. Asset Optimization
 
-[PRINCIPLE_2_DESCRIPTION]
+All game assets MUST be optimized for web delivery without compromising visual
+quality.
 
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+**Non-negotiable rules:**
 
-### [PRINCIPLE_3_NAME]
+- 3D models MUST use efficient geometry (low poly count where possible)
+- Textures MUST be compressed and sized appropriately for their use case
+- Audio files MUST use web-optimized formats (OGG/MP3) with reasonable bitrates
+- Total initial load size SHOULD stay under 5MB for fast first paint
 
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
+**Rationale:** Web games lose players to long load times. Optimization ensures
+accessibility across varying network conditions and devices.
 
-[PRINCIPLE_3_DESCRIPTION]
+### III. TypeScript Strict Mode
 
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+All game code MUST be written in TypeScript with strict mode enabled. No
+JavaScript files are permitted in `src/`.
 
-### [PRINCIPLE_4_NAME]
+**Non-negotiable rules:**
 
-<!-- Example: IV. Integration Testing -->
+- No `any` types
+- Implicit type inference is ok
+- Enums or union types MUST be used for game states and constants
 
-[PRINCIPLE_4_DESCRIPTION]
+**Rationale:** Type safety catches bugs early, improves refactoring confidence,
+and provides self-documenting code for future maintenance.
 
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### IV. Babylon.js Best Practices
 
-### [PRINCIPLE_5_NAME]
+All Babylon.js code MUST follow selective imports and engine best practices to
+minimize bundle size and maximize performance.
 
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
+**Non-negotiable rules:**
 
-[PRINCIPLE_5_DESCRIPTION]
+- Import ONLY from specific module paths (e.g., `@babylonjs/core/Maths/math.vector`)
+- NEVER use barrel imports from `@babylonjs/core`
+- Meshes and materials MUST be disposed when no longer needed
+- Scene cleanup MUST occur on scene transitions to prevent memory leaks
 
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+**Rationale:** Selective imports keep bundle sizes small. Proper disposal
+prevents memory leaks that degrade performance over time.
 
-## [SECTION_2_NAME]
+### V. Iterative Development
 
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+Features MUST be developed in vertical slices: implement → playtest → refine.
+No feature is complete until it feels right in actual gameplay.
 
-[SECTION_2_CONTENT]
+**Non-negotiable rules:**
 
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+- New mechanics MUST be playtestable within the same development session
+- Visual polish comes AFTER core mechanics are fun and stable
+- Player feedback MUST inform iteration cycles before finalizing any feature
+- Debug tools MUST be available to tweak values without code changes
 
-## [SECTION_3_NAME]
+**Rationale:** Game feel is discovered through play, not predetermined. Rapid
+iteration ensures the game is fun, not just functional.
 
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+## Code Quality Standards
 
-[SECTION_3_CONTENT]
+**Naming conventions:**
 
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+- Functions: camelCase (`takeDamage`, `isAlive`)
+- Classes: PascalCase (`GameManager`, `Enemy`)
+- Constants: UPPER_SNAKE_CASE (`PlayerConstants.MAX_HEALTH`)
+
+**Linting requirements:**
+
+- ESLint errors MUST be fixed before commit (`npm run lint:fix`)
+- TypeScript MUST compile without errors (`npm run lint:tsc`)
+- Prettier formatting MUST be applied consistently
+
+**Import organization:**
+
+- Babylon.js imports MUST be grouped and sorted by module path
+- Local imports MUST use relative paths from `src/`
+- External dependencies MUST be listed in `package.json`
+
+## Development Workflow
+
+**Branch strategy:**
+
+- Feature branches MUST be prefixed with issue number (`###-feature-name`)
+- Main branch MUST always be buildable and deployable
+- Pull requests MUST pass lint and type check before merge
+
+**Commit standards:**
+
+- Commit messages MUST follow Conventional Commits format
+- Each commit MUST represent a logical, testable unit of work
+- WIP commits SHOULD be squashed before merging to main
+
+**Build verification:**
+
+- `npm run build` MUST succeed before any merge to main
+- Production builds MUST be tested via `npm run preview` before release
 
 ## Governance
 
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
+**Amendment process:**
+Constitution amendments require:
 
-[GOVERNANCE_RULES]
+1. Proposed change with clear rationale
+2. Review against existing principles for conflicts
+3. Documentation of version bump (MAJOR/MINOR/PATCH)
+4. Update to this file with new amendment date
 
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+**Versioning policy:**
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
+- MAJOR: Backward-incompatible changes (removing principles, redefining core rules)
+- MINOR: New principles added or existing principles expanded
+- PATCH: Clarifications, wording improvements, typo fixes
 
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Compliance review:**
+
+- All PRs MUST be reviewed for constitution compliance
+- Violations MUST be documented with justification if intentionally bypassed
+- Quarterly review SHOULD assess whether principles remain relevant
+
+**Version**: 1.0.0 | **Ratified**: 2026-03-16 | **Last Amended**: 2026-03-16
