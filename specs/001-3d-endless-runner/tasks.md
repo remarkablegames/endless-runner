@@ -36,7 +36,7 @@
 - [ ] T007 [P] Create DifficultyConfig interface in src/types/difficulty-config.ts (baseSpeed, maxSpeed, speedIncreaseInterval, baseDensity, maxDensity, densityRampDuration)
 - [ ] T008 [P] Create game constants in src/config/game-constants.ts (LANE_X_POSITIONS: [-2, 0, 2], BASE_SPEED, MAX_SPEED, etc.)
 - [ ] T009 Create GameState class in src/core/game-state.ts (state, score, startTime, pauseTime, isRunning, state transition methods)
-- [ ] T010 Create InputHandler class in src/systems/input-handler.ts (keyboard event listeners, first-input-wins logic, input lockout)
+- [ ] T010 Create InputHandler class in src/systems/input-handler.ts (keyboard event listeners, first-input-wins logic, 150ms queued-input lockout for rapid bursts)
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -52,9 +52,9 @@
 
 - [ ] T011 [P] [US1] Create Player class in src/entities/player.ts (currentLane, targetLane, isJumping, isDucking, jumpProgress, duckProgress, verticalPosition)
 - [ ] T012 [P] [US1] Create Lane utility in src/entities/lane.ts (index, xPosition, isLeftmost, isRightmost, getLeftNeighbor, getRightNeighbor)
-- [ ] T013 [US1] Implement Player lane switching logic in src/entities/player.ts (switchLane method with boundary checks per FR-007, FR-008)
-- [ ] T014 [US1] Implement Player jump action in src/entities/player.ts (startJump method, jump animation progress, vertical position interpolation)
-- [ ] T015 [US1] Implement Player duck action in src/entities/player.ts (startDuck method, duck animation progress, vertical position interpolation)
+- [ ] T013 [US1] Implement Player lane switching logic in src/entities/player.ts (switchLane method with boundary checks per FR-007, FR-008, ignore new lane-switch inputs mid-transition)
+- [ ] T014 [US1] Implement Player jump action in src/entities/player.ts (startJump method, jump animation progress, vertical position interpolation, ignore additional jump inputs until landing)
+- [ ] T015 [US1] Implement Player duck action in src/entities/player.ts (startDuck method, duck animation progress, vertical position interpolation, reset duck duration on repeated input without stacking)
 - [ ] T016 [US1] Connect InputHandler to Player movement in src/systems/input-system.ts (map LEFT/RIGHT to lane switches, UP to jump, DOWN to duck)
 - [ ] T017 [US1] Create PlayerVisual class in src/entities/player-visual.ts (Babylon.js mesh creation, lane transition lerp, jump/duck animation)
 - [ ] T018 [US1] Integrate PlayerVisual with Player state in src/entities/player-visual.ts (update method syncs with Player properties)
@@ -79,7 +79,7 @@
 
 - [ ] T020 [P] [US2] Create Obstacle class in src/entities/obstacle.ts (id, lane, type, zPosition, isActive, requiresJump, requiresDuck, requiresLaneChange)
 - [ ] T021 [P] [US2] Create ObstaclePattern class in src/entities/obstacle-pattern.ts (pattern definitions with minRunDuration and difficulty rating)
-- [ ] T022 [US2] Implement ObstacleSpawner in src/systems/obstacle-spawner.ts (spawn obstacles ahead of player, pattern selection, object pooling)
+- [ ] T022 [US2] Implement ObstacleSpawner in src/systems/obstacle-spawner.ts (spawn obstacles ahead of player, pattern selection, object pooling, validate each pattern is avoidable from every lane)
 - [ ] T023 [US2] Create ObstaclePool in src/systems/obstacle-pool.ts (reuse obstacle instances, activate/deactivate, prevent create/destroy overhead)
 - [ ] T024 [US2] Implement difficulty scaling in src/systems/difficulty-manager.ts (interpolate speed and density based on run duration per SC-008, SC-009)
 - [ ] T025 [US2] Create ObstacleVisual class in src/entities/obstacle-visual.ts (Babylon.js mesh creation per obstacle type, Babylon.js primitives for MVP)
@@ -110,7 +110,7 @@
 - [ ] T031 [US3] Implement per-frame collision check in src/systems/collision-detector.ts (check player vs all active obstacles, <50ms detection per SC-003)
 - [ ] T032 [US3] Create collision boxes for Player in src/entities/player-visual.ts (separate boxes for standing, jumping, ducking states)
 - [ ] T033 [US3] Create collision boxes for Obstacle in src/entities/obstacle-visual.ts (bounding box per obstacle type)
-- [ ] T034 [US3] Trigger game over on collision in src/core/game-state.ts (transition Running → GameOver when collision detected)
+- [ ] T034 [US3] Trigger game over on collision in src/core/game-state.ts (transition Running → GameOver when collision detected, freeze player input during collision resolution frame)
 - [ ] T035 [US3] Implement score tracking in src/core/game-state.ts (distance traveled, continuous update per SC-007)
 - [ ] T036 [US3] Add game over state handling in src/core/game-state.ts (freeze game loop, store final score)
 
