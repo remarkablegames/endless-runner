@@ -1,4 +1,3 @@
-export * from './Entity';
 export * from './lane';
 export * from './obstacle';
 export * from './obstacle-pattern';
