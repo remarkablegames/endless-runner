@@ -22,7 +22,7 @@ export class ObstacleSpawner {
 
     if (this.spawnCooldown <= 0) {
       this.spawnPattern(runDuration);
-      this.spawnCooldown = Math.max(0.45, 1 / Math.max(0.1, density));
+      this.spawnCooldown = Math.max(0.3, 1 / Math.max(0.1, density));
     }
 
     for (const pooledObstacle of this.obstaclePool.getActive()) {
@@ -54,8 +54,28 @@ export class ObstacleSpawner {
     );
     const patterns =
       eligiblePatterns.length > 0 ? eligiblePatterns : DEFAULT_PATTERNS;
-    const selectedPattern =
-      patterns[Math.floor(Math.random() * patterns.length)];
+    const targetDifficulty = Math.min(0.95, 0.25 + runDuration / 75);
+    const totalWeight = patterns.reduce((sum, pattern) => {
+      const difficultyGap = Math.abs(
+        pattern.getDifficulty() - targetDifficulty,
+      );
+      const weight = Math.max(0.15, 1 - difficultyGap);
+      return sum + weight * weight;
+    }, 0);
+    let selection = Math.random() * totalWeight;
+    let selectedPattern = patterns[patterns.length - 1];
+
+    for (const pattern of patterns) {
+      const difficultyGap = Math.abs(
+        pattern.getDifficulty() - targetDifficulty,
+      );
+      const weight = Math.max(0.15, 1 - difficultyGap);
+      selection -= weight * weight;
+      if (selection <= 0) {
+        selectedPattern = pattern;
+        break;
+      }
+    }
 
     for (const spawn of selectedPattern.getSpawns()) {
       const laneValue = Lane.clamp(1 + spawn.laneOffset);

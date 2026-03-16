@@ -121,7 +121,7 @@ export const DEFAULT_PATTERNS: ObstaclePattern[] = [
       { laneOffset: -1, zOffset: 0, type: 'GROUND' },
       { laneOffset: 1, zOffset: 0, type: 'GROUND' },
     ],
-    30,
+    15,
     0.5,
   ),
   // Alternating obstacles (medium)
@@ -131,21 +131,21 @@ export const DEFAULT_PATTERNS: ObstaclePattern[] = [
       { laneOffset: 0, zOffset: 0, type: 'GROUND' },
       { laneOffset: -1, zOffset: -10, type: 'GROUND' },
     ],
-    45,
+    25,
     0.6,
   ),
   // Airborne obstacle requiring duck (medium)
   new ObstaclePattern(
     'airborne_center',
     [{ laneOffset: 0, zOffset: 0, type: 'AIRBORNE' }],
-    30,
+    18,
     0.5,
   ),
   // Full lane barrier (hard)
   new ObstaclePattern(
     'full_barrier',
     [{ laneOffset: 0, zOffset: 0, type: 'FULL_LANE' }],
-    60,
+    35,
     0.7,
   ),
   // Three obstacles in sequence (hard)
@@ -156,7 +156,7 @@ export const DEFAULT_PATTERNS: ObstaclePattern[] = [
       { laneOffset: -1, zOffset: -8, type: 'GROUND' },
       { laneOffset: 1, zOffset: -16, type: 'GROUND' },
     ],
-    90,
+    50,
     0.8,
   ),
 ];

@@ -27,12 +27,12 @@ export const LANE_X_POSITIONS: Record<LaneIndex, number> = {
 /**
  * Base forward speed (world units per second).
  */
-export const BASE_SPEED = 10;
+export const BASE_SPEED = 12;
 
 /**
  * Maximum forward speed cap.
  */
-export const MAX_SPEED = 25;
+export const MAX_SPEED = 30;
 
 /**
  * Speed increase interval in seconds (per SC-008).
@@ -47,17 +47,17 @@ export const SPEED_INCREASE_AMOUNT = 2.5;
 /**
  * Base obstacle spawn density (obstacles per second).
  */
-export const BASE_DENSITY = 0.5;
+export const BASE_DENSITY = 0.85;
 
 /**
  * Maximum obstacle spawn density.
  */
-export const MAX_DENSITY = 2.0;
+export const MAX_DENSITY = 3.0;
 
 /**
  * Duration to reach max density in seconds (per SC-009: 3 minutes).
  */
-export const DENSITY_RAMP_DURATION = 180;
+export const DENSITY_RAMP_DURATION = 105;
 
 /**
  * Default difficulty configuration.
@@ -108,7 +108,7 @@ export const INPUT_LOCKOUT_DURATION = 50;
  * Obstacle spawn distance ahead of player.
  * Ensures 1+ second reaction time (per SC-004).
  */
-export const OBSTACLE_SPAWN_Z = 50;
+export const OBSTACLE_SPAWN_Z = 42;
 
 /**
  * Obstacle cleanup distance behind player.
