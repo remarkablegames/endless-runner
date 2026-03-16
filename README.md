@@ -7,7 +7,7 @@
 [![release](https://img.shields.io/github/v/release/remarkablegames/endless-runner)](https://github.com/remarkablegames/endless-runner/releases)
 [![build](https://github.com/remarkablegames/endless-runner/actions/workflows/build.yml/badge.svg)](https://github.com/remarkablegames/endless-runner/actions/workflows/build.yml)
 
-<kbd>endless-runner</kbd> is a template for building [Babylon.js](https://github.com/BabylonJS/Babylon.js) games.
+🏃 Endless Runner game where the player has to dodge obstacles and keep moving forward.
 
 Play the game on:
 
@@ -35,14 +35,6 @@ Install the dependencies:
 ```sh
 npm install
 ```
-
-Update the files:
-
-- [ ] `README.md`
-- [ ] `index.html`
-- [ ] `package.json`
-- [ ] `public/logo.svg`
-- [ ] `public/manifest.webmanifest`
 
 ## Environment Variables
 
