@@ -100,9 +100,9 @@ export const DUCK_HEIGHT_REDUCTION = 1.5;
 
 /**
  * Input lockout duration in milliseconds.
- * Time to wait before accepting new input after an action (per FR-014).
+ * Kept short so repeated lane changes still feel responsive.
  */
-export const INPUT_LOCKOUT_DURATION = 150;
+export const INPUT_LOCKOUT_DURATION = 50;
 
 /**
  * Obstacle spawn distance ahead of player.
