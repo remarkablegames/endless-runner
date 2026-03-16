@@ -79,12 +79,12 @@
 
 - [x] T020 [P] [US2] Create Obstacle class in src/entities/obstacle.ts (id, lane, type, zPosition, isActive, requiresJump, requiresDuck, requiresLaneChange)
 - [x] T021 [P] [US2] Create ObstaclePattern class in src/entities/obstacle-pattern.ts (pattern definitions with minRunDuration and difficulty rating)
-- [ ] T022 [US2] Implement ObstacleSpawner in src/systems/obstacle-spawner.ts (spawn obstacles ahead of player, pattern selection, object pooling, validate each pattern is avoidable from every lane)
+- [x] T022 [US2] Implement ObstacleSpawner in src/systems/obstacle-spawner.ts (spawn obstacles ahead of player, pattern selection, object pooling, validate each pattern is avoidable from every lane)
 - [x] T023 [US2] Create ObstaclePool in src/systems/obstacle-pool.ts (reuse obstacle instances, activate/deactivate, prevent create/destroy overhead)
 - [x] T024 [US2] Implement difficulty scaling in src/systems/difficulty-manager.ts (interpolate speed and density based on run duration per SC-008, SC-009)
 - [x] T025 [US2] Create ObstacleVisual class in src/entities/obstacle-visual.ts (Babylon.js mesh creation per obstacle type, Babylon.js primitives for MVP)
 - [x] T026 [US2] Integrate obstacle movement in src/systems/obstacle-system.ts (move obstacles toward player based on current speed)
-- [ ] T027 [US2] Add obstacle cleanup in src/systems/obstacle-pool.ts (deactivate obstacles that pass behind player, return to pool)
+- [x] T027 [US2] Add obstacle cleanup in src/systems/obstacle-pool.ts (deactivate obstacles that pass behind player, return to pool)
 - [x] T028 [US2] Implement progressive speed increase per FR-019 in src/systems/difficulty-manager.ts (increase every 30 seconds)
 - [x] T029 [US2] Implement progressive density increase per FR-020 in src/systems/difficulty-manager.ts (reach max by 3 minutes)
 
@@ -107,12 +107,13 @@
 ### Implementation for User Story 3
 
 - [x] T030 [P] [US3] Create CollisionDetector in src/systems/collision-detector.ts (bounding box intersection using Babylon.js intersectsMesh())
-- [ ] T031 [US3] Implement per-frame collision check in src/systems/collision-detector.ts (check player vs all active obstacles, <50ms detection per SC-003)
-- [ ] T032 [US3] Create collision boxes for Player in src/entities/player-visual.ts (separate boxes for standing, jumping, ducking states)
-- [ ] T033 [US3] Create collision boxes for Obstacle in src/entities/obstacle-visual.ts (bounding box per obstacle type)
-- [ ] T034 [US3] Trigger game over on collision in src/core/game-state.ts (transition Running → GameOver when collision detected, freeze player input during collision resolution frame)
+- [x] T031 [US3] Implement per-frame collision check in src/systems/collision-detector.ts (check player vs all active obstacles, <50ms detection per SC-003)
+- [x] T032 [US3] Create collision boxes for Player in src/entities/player-visual.ts (separate boxes for standing, jumping, ducking states)
+- [x] T033 [US3] Create collision boxes for Obstacle in src/entities/obstacle-visual.ts (bounding box per
+      obxtacle type)
+- [x] T034 [US3] Trigger game over on collision in src/core/game-state.ts (transition Running → GameOver when collision detected, freeze player input during collision resolution frame)
 - [x] T035 [US3] Implement score tracking in src/core/game-state.ts (distance traveled, continuous update per SC-007)
-- [ ] T036 [US3] Add game over state handling in src/core/game-state.ts (freeze game loop, store final score)
+- [x] T036 [US3] Add game over state handling in src/core/game-state.ts (freeze game loop, store final score)
 
 **Checkpoint**: At this point, User Stories 1, 2, AND 3 should all work independently
 
@@ -131,9 +132,9 @@
 
 ### Implementation for User Story 4
 
-- [ ] T037 [P] [US4] Create StartScreen in src/scenes/start-screen.ts (Babylon.js GUI with game title and start button)
-- [ ] T038 [P] [US4] Create GameOverScreen in src/scenes/game-over-screen.ts (display final score, restart option)
-- [ ] T039 [P] [US4] Create PauseOverlay in src/scenes/pause-overlay.ts (paused message, resume button)
+- [x] T037 [P] [US4] Create StartScreen in src/scenes/start-screen.ts (Babylon.js GUI with game title and start button)
+- [x] T038 [P] [US4] Create GameOverScreen in src/scenes/game-over-screen.ts (display final score, restart option)
+- [x] T039 [P] [US4] Create PauseOverlay in src/scenes/pause-overlay.ts (paused message, resume button)
 - [x] T040 [US4] Implement state transition Start → Running in src/core/game-state.ts (on start game input, initialize score, set startTime)
 - [x] T041 [US4] Implement state transition Running → Paused in src/core/game-state.ts (on pause input, set pauseTime, freeze all updates per FR-018)
 - [x] T042 [US4] Implement state transition Paused → Running in src/core/game-state.ts (on resume input, clear pauseTime, resume from exact point)
