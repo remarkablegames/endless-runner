@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/logo.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="Babylon Template" />
+    <link rel="stylesheet" href="/src/style.css" />
+
+    <!--
+      manifest.webmanifest provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <title>Babylon Template | remarkablegames</title>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="spinner" role="progressbar" aria-label="Loading"></div>
+    <canvas id="game"></canvas>
+    <script type="module" src="/src/main.ts"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script>
+      window['ga-disable-%VITE_GOOGLE_ANALYTICS_ID%'] = %DEV%;
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function () {
+        dataLayer.push(arguments);
+      };
+      gtag('js', new Date());
+      gtag('config', '%VITE_GOOGLE_ANALYTICS_ID%');
+    </script>
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=%VITE_GOOGLE_ANALYTICS_ID%"
+    ></script>
+  </body>
+</html>
