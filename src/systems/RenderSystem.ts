@@ -33,8 +33,8 @@ export class RenderSystem {
       this.deltaTime = (currentTime - this.lastTime) / 1000;
       this.lastTime = currentTime;
 
-      this.scene.render();
       onFrame(this.deltaTime);
+      this.scene.render();
     });
   }
 

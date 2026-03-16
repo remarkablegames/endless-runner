@@ -1,40 +1,121 @@
+:root {
+  color: #f2f7fb;
+  font-family: 'Trebuchet MS', 'Avenir Next', sans-serif;
+  background:
+    radial-gradient(circle at top, rgba(57, 145, 214, 0.26), transparent 34%),
+    linear-gradient(180deg, #090d13 0%, #020305 100%);
+}
+
 * {
-  border: 0;
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
 html,
 body,
-canvas {
+#game {
   display: block;
   width: 100%;
   height: 100%;
 }
 
-canvas:focus {
+body {
+  overflow: hidden;
+}
+
+#game:focus {
   outline: none;
 }
 
 #spinner {
-  position: relative;
+  position: fixed;
   top: 50%;
   left: 50%;
+  z-index: 3;
+  width: 96px;
+  height: 96px;
   transform: translate(-50%, -50%);
-  width: 100px;
-  height: 100px;
-  border: 4px solid #ddd;
-  border-top: 4px solid #3498db;
+  border: 4px solid rgba(242, 247, 251, 0.18);
+  border-top-color: #49d7d0;
   border-radius: 50%;
-  animation: spin 1s linear infinite;
+  animation: spin 0.9s linear infinite;
+}
+
+#ui-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  pointer-events: none;
+}
+
+#score-display {
+  justify-self: end;
+  margin: 1.25rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba(73, 215, 208, 0.24);
+  border-radius: 999px;
+  background: rgba(7, 11, 18, 0.72);
+  backdrop-filter: blur(10px);
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+#score-display[data-visible='false'] {
+  opacity: 0;
+}
+
+#state-panel {
+  place-self: center;
+  max-width: 28rem;
+  padding: 2rem;
+  border: 1px solid rgba(73, 215, 208, 0.18);
+  border-radius: 1.5rem;
+  background: rgba(8, 12, 20, 0.78);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(14px);
+  text-align: center;
+  pointer-events: auto;
+}
+
+#state-panel[data-hidden='true'] {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#state-panel h1 {
+  margin-bottom: 0.75rem;
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+#state-panel p {
+  margin-bottom: 1.5rem;
+  color: rgba(242, 247, 251, 0.8);
+  line-height: 1.5;
+}
+
+#state-panel button {
+  padding: 0.9rem 1.3rem;
+  border: 1px solid rgba(73, 215, 208, 0.35);
+  border-radius: 999px;
+  background: linear-gradient(135deg, #35c6d7, #2489ea);
+  color: #031119;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 700;
 }
 
 @keyframes spin {
-  0% {
+  from {
     transform: translate(-50%, -50%) rotate(0deg);
   }
 
-  100% {
+  to {
     transform: translate(-50%, -50%) rotate(360deg);
   }
 }

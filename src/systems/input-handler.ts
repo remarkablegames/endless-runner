@@ -1,21 +1,12 @@
+import { INPUT_LOCKOUT_DURATION } from '../config/game-constants';
 import type { InputDirection } from '../types/input';
 
 /**
- * InputHandler class - manages keyboard input for player control.
- * Implements first-input-wins logic with 150ms queued-input lockout.
+ * Handles raw keyboard input with first-input-wins behavior.
  */
 export class InputHandler {
-  /** Currently pressed keys set */
-  private pressedKeys = new Set<string>();
-
-  /** Queued input direction (first input wins) */
-  private queuedInput: InputDirection | null = null;
-
-  /** Input lockout timestamp (ms) */
-  private lockoutUntil = 0;
-
-  /** Key mapping to input directions */
-  private keyMap: Record<string, InputDirection> = {
+  private readonly pressedKeys = new Set<string>();
+  private readonly keyMap: Partial<Record<string, InputDirection>> = {
     ArrowLeft: 'LEFT',
     KeyA: 'LEFT',
     ArrowRight: 'RIGHT',
@@ -25,103 +16,127 @@ export class InputHandler {
     ArrowDown: 'DOWN',
     KeyS: 'DOWN',
   };
-
-  /** Pause key mapping */
-  private pauseKeys = new Set<string>(['KeyP', 'Escape']);
+  private readonly pauseKeys = new Set<string>(['KeyP', 'Escape']);
+  private queuedInput: InputDirection | null = null;
+  private consumedQueuedInput = false;
+  private lockoutUntil = 0;
+  private pauseRequested = false;
+  private restartRequested = false;
+  private startRequested = false;
 
   /**
-   * Register keyboard event listeners.
-   * @param canvas - The canvas element to attach listeners to
+   * Begin listening for keyboard input.
    */
-  public initialize(canvas: HTMLCanvasElement): void {
-    canvas.addEventListener('keydown', this.handleKeyDown.bind(this));
-    canvas.addEventListener('keyup', this.handleKeyUp.bind(this));
+  public initialize(): void {
+    window.addEventListener('keydown', this.handleKeyDown);
+    window.addEventListener('keyup', this.handleKeyUp);
   }
 
   /**
-   * Handle key down events.
-   * Implements first-input-wins with lockout.
+   * Stop listening for keyboard input.
    */
-  private handleKeyDown(event: KeyboardEvent): void {
-    this.pressedKeys.add(event.code);
+  public dispose(): void {
+    window.removeEventListener('keydown', this.handleKeyDown);
+    window.removeEventListener('keyup', this.handleKeyUp);
+  }
 
-    // Check for pause input
-    if (this.pauseKeys.has(event.code)) {
+  /**
+   * Return the next unconsumed directional input.
+   */
+  public pollInput(): InputDirection | null {
+    if (this.queuedInput === null || this.consumedQueuedInput) {
+      return null;
+    }
+
+    this.consumedQueuedInput = true;
+    return this.queuedInput;
+  }
+
+  /**
+   * Consume a pause toggle request.
+   */
+  public consumePauseRequested(): boolean {
+    const requested = this.pauseRequested;
+    this.pauseRequested = false;
+    return requested;
+  }
+
+  /**
+   * Consume a restart request.
+   */
+  public consumeRestartRequested(): boolean {
+    const requested = this.restartRequested;
+    this.restartRequested = false;
+    return requested;
+  }
+
+  /**
+   * Consume a start request.
+   */
+  public consumeStartRequested(): boolean {
+    const requested = this.startRequested;
+    this.startRequested = false;
+    return requested;
+  }
+
+  /**
+   * Clear queued and pressed input state.
+   */
+  public clearInputs(): void {
+    this.pressedKeys.clear();
+    this.queuedInput = null;
+    this.consumedQueuedInput = false;
+    this.pauseRequested = false;
+    this.restartRequested = false;
+  }
+
+  /**
+   * Handle key presses.
+   */
+  private readonly handleKeyDown = (event: KeyboardEvent): void => {
+    if (event.repeat) {
       return;
     }
 
-    // Check if this key maps to a valid input direction
-    const inputDirection = this.keyMap[event.code];
+    this.pressedKeys.add(event.code);
 
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    if (this.pauseKeys.has(event.code)) {
+      this.pauseRequested = true;
+      return;
+    }
+
+    if (event.code === 'KeyR') {
+      this.restartRequested = true;
+    }
+
+    this.startRequested = true;
+
+    const inputDirection = this.keyMap[event.code];
     if (!inputDirection) {
       return;
     }
 
-    // First-input-wins: only queue if no input is queued and not in lockout
-    if (this.queuedInput === null && Date.now() >= this.lockoutUntil) {
-      this.queuedInput = inputDirection;
+    if (this.queuedInput !== null || Date.now() < this.lockoutUntil) {
+      return;
     }
-  }
+
+    this.queuedInput = inputDirection;
+    this.consumedQueuedInput = false;
+  };
 
   /**
-   * Handle key up events.
-   * Clears lockout on key release to allow new inputs.
+   * Release directional input and unlock after a short delay.
    */
-  private handleKeyUp(event: KeyboardEvent): void {
+  private readonly handleKeyUp = (event: KeyboardEvent): void => {
     this.pressedKeys.delete(event.code);
 
-    // Clear lockout on release of the key that triggered the queued input
-    if (this.queuedInput && this.keyMap[event.code] === this.queuedInput) {
+    if (
+      this.queuedInput !== null &&
+      this.keyMap[event.code] === this.queuedInput
+    ) {
       this.queuedInput = null;
-      this.lockoutUntil = Date.now() + 150; // 150ms lockout per FR-014
+      this.consumedQueuedInput = false;
+      this.lockoutUntil = Date.now() + INPUT_LOCKOUT_DURATION;
     }
-  }
-
-  /**
-   * Poll for the next input direction.
-   * Returns null if no input is queued.
-   * Consumes the queued input (call once per frame).
-   */
-  public pollInput(): InputDirection | null {
-    const input = this.queuedInput;
-    // Don't clear here - clear on keyup instead for first-input-wins
-    return input;
-  }
-
-  /**
-   * Check if a specific input direction is currently queued.
-   */
-  public isInputQueued(direction: InputDirection): boolean {
-    return this.queuedInput === direction;
-  }
-
-  /**
-   * Check if pause input was triggered.
-   * Called on keydown to detect pause request.
-   */
-  public isPauseTriggered(): boolean {
-    for (const code of this.pauseKeys) {
-      if (this.pressedKeys.has(code)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  /**
-   * Clear all queued inputs.
-   * Used when transitioning between game states.
-   */
-  public clearInputs(): void {
-    this.queuedInput = null;
-    this.pressedKeys.clear();
-  }
-
-  /**
-   * Get the current lockout status.
-   */
-  public isLockedOut(): boolean {
-    return Date.now() < this.lockoutUntil;
-  }
+  };
 }
