@@ -63,7 +63,7 @@ export class UIManager {
 
     if (state === GameStateEnum.Start) {
       this.setPanel(
-        'Neon Sprint',
+        'Endless Runner',
         'Three lanes. Jump low barriers, duck high ones, and survive as speed ramps up.',
         'Start Run',
         'start',
