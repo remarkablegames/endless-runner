@@ -7,7 +7,11 @@ import { Vector3 } from '@babylonjs/core/Maths/math.vector';
 import { MeshBuilder } from '@babylonjs/core/Meshes/meshBuilder';
 import { Scene } from '@babylonjs/core/scene';
 
-import { LANE_X_POSITIONS } from '../config/game-constants';
+import {
+  LANE_X_POSITIONS,
+  TRACK_LENGTH,
+  TRACK_WIDTH,
+} from '../config/game-constants';
 import { createCamera } from './createCamera';
 
 /**
@@ -47,7 +51,7 @@ export function createScene(engine: Engine): Scene {
 
   const ground = MeshBuilder.CreateGround(
     'track',
-    { width: 8, height: 140 },
+    { width: TRACK_WIDTH, height: TRACK_LENGTH },
     scene,
   );
   ground.position.z = -28;
@@ -56,7 +60,7 @@ export function createScene(engine: Engine): Scene {
   for (const laneX of Object.values(LANE_X_POSITIONS)) {
     const marker = MeshBuilder.CreateGround(
       `lane-marker-${String(laneX)}`,
-      { width: 0.08, height: 140 },
+      { width: 0.08, height: TRACK_LENGTH },
       scene,
     );
     marker.position.set(laneX, 0.01, -28);

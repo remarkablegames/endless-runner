@@ -2,13 +2,26 @@ import type { DifficultyConfig } from '../types/difficulty-config';
 import type { LaneIndex } from '../types/input';
 
 /**
+ * Track dimensions in world units.
+ */
+export const TRACK_WIDTH = 8;
+export const TRACK_LENGTH = 160;
+
+/**
+ * Distance from the center lane to the outer lane centers.
+ * Kept slightly inside the track edges so the player and obstacles stay on
+ * the visible path instead of overhanging the sides.
+ */
+export const LANE_CENTER_OFFSET = 1.6;
+
+/**
  * X-axis positions for the three lanes.
  * Evenly spaced for consistent lane switching.
  */
 export const LANE_X_POSITIONS: Record<LaneIndex, number> = {
-  0: -2, // Left lane
+  0: -LANE_CENTER_OFFSET, // Left lane
   1: 0, // Center lane
-  2: 2, // Right lane
+  2: LANE_CENTER_OFFSET, // Right lane
 };
 
 /**
