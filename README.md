@@ -1,17 +1,17 @@
 <p align="center">
-  <img src="public/logo.svg" width="250" alt="Babylon Template">
+  <img src="public/logo.svg" width="250" alt="Endless Runner">
 </p>
 
-# Babylon Template
+# Endless Runner
 
-[![release](https://img.shields.io/github/v/release/remarkablegames/babylon-template)](https://github.com/remarkablegames/babylon-template/releases)
-[![build](https://github.com/remarkablegames/babylon-template/actions/workflows/build.yml/badge.svg)](https://github.com/remarkablegames/babylon-template/actions/workflows/build.yml)
+[![release](https://img.shields.io/github/v/release/remarkablegames/endless-runner)](https://github.com/remarkablegames/endless-runner/releases)
+[![build](https://github.com/remarkablegames/endless-runner/actions/workflows/build.yml/badge.svg)](https://github.com/remarkablegames/endless-runner/actions/workflows/build.yml)
 
-<kbd>babylon-template</kbd> is a template for building [Babylon.js](https://github.com/BabylonJS/Babylon.js) games.
+<kbd>endless-runner</kbd> is a template for building [Babylon.js](https://github.com/BabylonJS/Babylon.js) games.
 
 Play the game on:
 
-- [remarkablegames](https://remarkablegames.org/babylon-template/)
+- [remarkablegames](https://remarkablegames.org/endless-runner/)
 
 ## Prerequisites
 
@@ -26,24 +26,14 @@ brew install nvm
 Clone the repository:
 
 ```sh
-git clone https://github.com/remarkablegames/babylon-template.git
-cd babylon-template
+git clone https://github.com/remarkablegames/endless-runner.git
+cd endless-runner
 ```
 
 Install the dependencies:
 
 ```sh
 npm install
-```
-
-Rename the project:
-
-```sh
-git grep -l babylon-template | xargs sed -i '' -e 's/babylon-template/my-game/g'
-```
-
-```sh
-git grep -l 'Babylon Template' | xargs sed -i '' -e 's/Babylon Template/My Game/g'
 ```
 
 Update the files:

@@ -1,7 +1,7 @@
 {
-  "name": "babylon-template",
+  "name": "endless-runner",
   "version": "1.0.0-alpha",
-  "description": "Babylon Template",
+  "description": "Endless Runner",
   "author": "Mark <mark@remarkablemark.org>",
   "scripts": {
     "build": "npm run clean && vite build",
@@ -14,7 +14,7 @@
     "preview": "vite preview",
     "start": "vite --open"
   },
-  "homepage": "https://remarkablegames.org/babylon-template/",
+  "homepage": "https://remarkablegames.org/endless-runner/",
   "dependencies": {
     "@babylonjs/core": "8.55.2",
     "@babylonjs/inspector": "8.55.2"

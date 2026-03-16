@@ -1,7 +1,7 @@
 {
-  "name": "Babylon Template",
-  "short_name": "Babylon Template",
-  "description": "Babylon Template",
+  "name": "Endless Runner",
+  "short_name": "Endless Runner",
+  "description": "Endless Runner",
   "start_url": "./",
   "display": "standalone",
   "theme_color": "#ffffff",
