@@ -16,8 +16,12 @@ export function createCamera(scene: Scene): ArcRotateCamera {
   );
 
   camera.attachControl();
+  camera.inputs.attached.keyboard.detachControl();
+  camera.panningSensibility = 0;
   camera.lowerRadiusLimit = 5;
+  camera.upperBetaLimit = camera.beta;
   camera.upperRadiusLimit = 50;
+  camera.lowerBetaLimit = camera.beta;
   camera.wheelPrecision = 50;
 
   return camera;
