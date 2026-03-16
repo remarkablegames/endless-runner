@@ -15,8 +15,11 @@ export class UIManager {
   private readonly message: HTMLParagraphElement;
   private readonly primaryButton: HTMLButtonElement;
   private readonly scoreLabel: HTMLDivElement;
+  private readonly panel: HTMLDivElement;
   private readonly callbacks: UIManagerCallbacks;
   private buttonMode: 'start' | 'resume' | 'restart' = 'start';
+  private lastRenderedState: GameStateEnum | null = null;
+  private lastRenderedScore = Number.NaN;
 
   constructor(callbacks: UIManagerCallbacks) {
     this.callbacks = callbacks;
@@ -27,8 +30,8 @@ export class UIManager {
     this.scoreLabel.id = 'score-display';
     this.root.append(this.scoreLabel);
 
-    const panel = document.createElement('div');
-    panel.id = 'state-panel';
+    this.panel = document.createElement('div');
+    this.panel.id = 'state-panel';
 
     this.title = document.createElement('h1');
     this.message = document.createElement('p');
@@ -48,8 +51,8 @@ export class UIManager {
       this.callbacks.onRestart();
     });
 
-    panel.append(this.title, this.message, this.primaryButton);
-    this.root.append(panel);
+    this.panel.append(this.title, this.message, this.primaryButton);
+    this.root.append(this.panel);
     document.body.append(this.root);
   }
 
@@ -57,9 +60,22 @@ export class UIManager {
    * Update score and visible panel based on game state.
    */
   public render(state: GameStateEnum, score: number): void {
-    this.scoreLabel.textContent = `Distance ${String(Math.floor(score))}m`;
-    this.scoreLabel.dataset.visible =
-      state === GameStateEnum.Start ? 'false' : 'true';
+    const roundedScore = Math.floor(score);
+    if (roundedScore !== this.lastRenderedScore) {
+      this.scoreLabel.textContent = `Distance ${String(roundedScore)}m`;
+      this.lastRenderedScore = roundedScore;
+    }
+
+    const scoreVisible = state === GameStateEnum.Start ? 'false' : 'true';
+    if (this.scoreLabel.dataset.visible !== scoreVisible) {
+      this.scoreLabel.dataset.visible = scoreVisible;
+    }
+
+    if (state === this.lastRenderedState) {
+      return;
+    }
+
+    this.lastRenderedState = state;
 
     if (state === GameStateEnum.Start) {
       this.setPanel(
@@ -86,9 +102,7 @@ export class UIManager {
       return;
     }
 
-    this.root
-      .querySelector('#state-panel')
-      ?.setAttribute('data-hidden', 'true');
+    this.panel.setAttribute('data-hidden', 'true');
   }
 
   /**
@@ -104,8 +118,7 @@ export class UIManager {
     buttonLabel: string,
     mode: 'start' | 'resume' | 'restart',
   ): void {
-    const panel = this.root.querySelector('#state-panel');
-    panel?.setAttribute('data-hidden', 'false');
+    this.panel.setAttribute('data-hidden', 'false');
     this.buttonMode = mode;
     this.title.textContent = title;
     this.message.textContent = message;
