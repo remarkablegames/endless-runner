@@ -5,24 +5,36 @@
 **Status**: Draft
 **Input**: User description: "3D endless runner game where player can move left, right, up, and down"
 
+## Clarifications
+
+### Session 2026-03-16
+
+- Q: How should the game handle when multiple directional inputs are pressed at the same time? → A: First-input-wins (whichever key was pressed first is the only one that registers)
+- Q: What obstacle types should the game support and which movement directions are meaningful for avoiding them? → A: Lane-based obstacles (discrete lanes, left/right switches, up/down for jump/duck)
+- Q: What game states should exist and how does the player transition between them? → A: Full states: Start Screen → Running → Paused → Game Over → Restart
+- Q: How many discrete lanes should the game have? → A: 3 lanes (left, center, right) - standard, easy to parse visually
+- Q: How should obstacle patterns and game difficulty evolve during a run? → A: Progressive scaling (speed and obstacle density increase gradually over time/distance)
+
 ## User Scenarios & Testing
 
 ### User Story 1 - Player Movement Control (Priority: P1)
 
-As a player, I want to control my character's movement in four directions (left, right, up, down) so that I can navigate through the game environment and avoid obstacles.
+As a player, I want to control my character's movement in four directions (left, right, up, down) across discrete lanes so that I can navigate through the game environment and avoid obstacles.
 
 **Why this priority**: This is the core mechanic of the game. Without player movement control, there is no gameplay. This forms the foundation upon which all other game mechanics are built.
 
-**Independent Test**: Can be fully tested by spawning the player in a test environment with no obstacles and verifying that pressing movement controls moves the character in the correct directions.
+**Independent Test**: Can be fully tested by spawning the player in a test environment with no obstacles and verifying that pressing movement controls moves the character to the correct lane or triggers the correct vertical action.
 
 **Acceptance Scenarios**:
 
-1. **Given** the player character is running forward automatically, **When** the player presses the left movement control, **Then** the character moves to the left lane/position
-2. **Given** the player character is running forward automatically, **When** the player presses the right movement control, **Then** the character moves to the right lane/position
-3. **Given** the player character is running forward automatically, **When** the player presses the up movement control, **Then** the character moves upward (jumps or flies up)
-4. **Given** the player character is running forward automatically, **When** the player presses the down movement control, **Then** the character moves downward (ducks or drops down)
-5. **Given** the player is at the leftmost boundary, **When** the player presses left, **Then** the character does not move beyond the boundary
-6. **Given** the player is at the rightmost boundary, **When** the player presses right, **Then** the character does not move beyond the boundary
+1. **Given** the player character is running forward automatically in the center lane, **When** the player presses the left movement control, **Then** the character moves to the left lane
+2. **Given** the player character is running forward automatically in the left lane, **When** the player presses the right movement control, **Then** the character moves to the center lane
+3. **Given** the player character is running forward automatically in the center lane, **When** the player presses the right movement control, **Then** the character moves to the right lane
+4. **Given** the player character is running forward automatically in the right lane, **When** the player presses the left movement control, **Then** the character moves to the center lane
+5. **Given** the player character is running forward automatically, **When** the player presses the up movement control, **Then** the character performs a jump action
+6. **Given** the player character is running forward automatically, **When** the player presses the down movement control, **Then** the character performs a duck/slide action
+7. **Given** the player is in the left lane, **When** the player presses left, **Then** the character remains in the left lane (no movement)
+8. **Given** the player is in the right lane, **When** the player presses right, **Then** the character remains in the right lane (no movement)
 
 ---
 
@@ -58,40 +70,66 @@ As a player, I want the game to detect when my character collides with obstacles
 
 ---
 
+### User Story 4 - Game State Management (Priority: P4)
+
+As a player, I want the game to have clear states (start screen, running, paused, game over) with smooth transitions so that I can understand the game status and control my play session.
+
+**Why this priority**: Clear state management provides player feedback and control over the experience. Pause functionality is expected in modern games, and start/game over screens provide necessary context and score display.
+
+**Independent Test**: Can be tested by transitioning through each state (start → running → paused → running → game over → restart) and verifying the correct UI and behavior for each state.
+
+**Acceptance Scenarios**:
+
+1. **Given** the game application has loaded, **When** no action is taken, **Then** the start screen is displayed with game title and start option
+2. **Given** the start screen is displayed, **When** the player initiates a new game, **Then** the game transitions to the running state
+3. **Given** the game is running, **When** the player activates pause, **Then** the game transitions to paused state and freezes all game action
+4. **Given** the game is paused, **When** the player activates resume, **Then** the game transitions back to running state from the exact point of pause
+5. **Given** the game is running, **When** the player collides with an obstacle, **Then** the game transitions to game over state and displays the final score
+6. **Given** the game over state is displayed, **When** the player initiates restart, **Then** a new game session begins with score reset to zero
+
+---
+
 ### Edge Cases
 
-- What happens when the player presses multiple movement controls simultaneously (e.g., up and left)?
+- When the player presses multiple movement controls simultaneously, the system MUST register only the first input received and ignore subsequent inputs until the first is released
 - How does the system handle rapid successive inputs (e.g., pressing left-right-left within 0.5 seconds)?
-- What happens when the player is at the upper movement boundary and presses up again?
-- What happens when the player is at the lower movement boundary and presses down again?
+- What happens when the player is jumping and presses up again before landing?
+- What happens when the player is ducking and presses down again before standing?
 - How does the system handle movement input during the collision detection frame?
-- What happens if an obstacle spawns in a position that is impossible to avoid?
+- What happens if an obstacle spawns in a position that is impossible to avoid given current player position?
+- How does the system handle lane transitions when the player is mid-switch between lanes?
 
 ## Requirements
 
 ### Functional Requirements
 
 - **FR-001**: System MUST automatically move the player character forward continuously through the game environment
-- **FR-002**: System MUST allow the player to move the character left when input is provided
-- **FR-003**: System MUST allow the player to move the character right when input is provided
-- **FR-004**: System MUST allow the player to move the character upward when input is provided
-- **FR-005**: System MUST allow the player to move the character downward when input is provided
-- **FR-006**: System MUST prevent the player from moving beyond the leftmost movement boundary
-- **FR-007**: System MUST prevent the player from moving beyond the rightmost movement boundary
-- **FR-008**: System MUST prevent the player from moving beyond the uppermost movement boundary
-- **FR-009**: System MUST prevent the player from moving beyond the lowermost movement boundary
-- **FR-010**: System MUST generate obstacles and environment elements ahead of the player continuously
-- **FR-011**: System MUST detect collisions between the player character and obstacles
-- **FR-012**: System MUST end the current run when a collision with an obstacle is detected
-- **FR-013**: System MUST display the player's score or distance traveled during the run
-- **FR-014**: System MUST allow the player to restart the game after a game over condition
+- **FR-002**: System MUST provide exactly 3 discrete lanes (left, center, right) for player positioning
+- **FR-003**: System MUST allow the player to switch to the left adjacent lane when input is provided
+- **FR-004**: System MUST allow the player to switch to the right adjacent lane when input is provided
+- **FR-005**: System MUST allow the player to perform a jump action (up input) that avoids ground-level obstacles
+- **FR-006**: System MUST allow the player to perform a duck/slide action (down input) that avoids airborne obstacles
+- **FR-007**: System MUST prevent the player from switching left when already in the leftmost lane
+- **FR-008**: System MUST prevent the player from switching right when already in the rightmost lane
+- **FR-009**: System MUST generate obstacles in specific lanes that require lane-switching, jumping, or ducking to avoid
+- **FR-010**: System MUST detect collisions between the player character and obstacles
+- **FR-011**: System MUST end the current run when a collision with an obstacle is detected
+- **FR-012**: System MUST display the player's score or distance traveled during the run
+- **FR-013**: System MUST allow the player to restart the game after a game over condition
+- **FR-014**: System MUST register only the first directional input when multiple directions are pressed simultaneously, ignoring subsequent inputs until the first is released
+- **FR-015**: System MUST display a start screen when the game loads before any gameplay begins
+- **FR-016**: System MUST allow the player to pause the game during the running state
+- **FR-017**: System MUST allow the player to resume the game from the paused state, continuing from the exact point of pause
+- **FR-018**: System MUST freeze all game action (player movement, obstacle movement, score counting) when in paused state
+- **FR-019**: System MUST gradually increase the forward movement speed as the run duration increases
+- **FR-020**: System MUST gradually increase obstacle density as the run duration increases
 
 ### Key Entities
 
-- **Player Character**: The controllable entity that moves through the game environment with position attributes (horizontal, vertical, forward progress)
-- **Obstacle**: Environmental hazards that appear in the player's path and trigger game over upon collision
+- **Player Character**: The controllable entity that occupies one lane at a time and can perform jump/duck actions
+- **Lane**: One of exactly 3 discrete horizontal positions (left, center, right) where the player and obstacles can be positioned
+- **Obstacle**: Environmental hazards positioned in specific lanes that require lane-switching, jumping, or ducking to avoid; triggers game over upon collision
 - **Game Session**: A single run from start to game over, tracking player progress and score
-- **Movement Boundary**: The defined limits of player movement in each direction (left, right, up, down)
 
 ## Success Criteria
 
@@ -104,3 +142,5 @@ As a player, I want the game to detect when my character collides with obstacles
 - **SC-005**: Player can successfully restart a new run within 3 seconds of game over
 - **SC-006**: Movement boundaries prevent player from exiting the playable area 100% of the time
 - **SC-007**: Score/distance display updates continuously during the run with less than 100 milliseconds delay
+- **SC-008**: Forward speed increases by a measurable amount every 30 seconds of run duration
+- **SC-009**: Obstacle density increases progressively, reaching maximum density by 3 minutes of run duration
