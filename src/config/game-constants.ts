@@ -95,13 +95,13 @@ export const INPUT_LOCKOUT_DURATION = 150;
  * Obstacle spawn distance ahead of player.
  * Ensures 1+ second reaction time (per SC-004).
  */
-export const OBSTACLE_SPAWN_Z = -50;
+export const OBSTACLE_SPAWN_Z = 50;
 
 /**
  * Obstacle cleanup distance behind player.
  * Obstacles passing this point are returned to pool.
  */
-export const OBSTACLE_CLEANUP_Z = 10;
+export const OBSTACLE_CLEANUP_Z = -10;
 
 /**
  * Collision detection tolerance.

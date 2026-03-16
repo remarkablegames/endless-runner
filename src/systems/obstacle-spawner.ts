@@ -26,7 +26,7 @@ export class ObstacleSpawner {
     }
 
     for (const pooledObstacle of this.obstaclePool.getActive()) {
-      if (pooledObstacle.obstacle.getZPosition() > OBSTACLE_CLEANUP_Z) {
+      if (pooledObstacle.obstacle.getZPosition() < OBSTACLE_CLEANUP_Z) {
         this.obstaclePool.release(pooledObstacle);
       }
     }

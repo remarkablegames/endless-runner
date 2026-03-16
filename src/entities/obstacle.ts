@@ -86,7 +86,7 @@ export class Obstacle {
    * @param deltaZ - Distance to move
    */
   public moveForward(deltaZ: number): void {
-    this.zPosition += deltaZ;
+    this.zPosition -= deltaZ;
   }
 
   /**
