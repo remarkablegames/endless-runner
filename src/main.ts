@@ -138,17 +138,6 @@ renderSystem.startRenderLoop((deltaTime) => {
   uiManager.render(gameState.getState(), gameState.getScore());
 });
 
-window.addEventListener('pointerdown', () => {
-  if (gameState.getState() === GameStateEnum.Start) {
-    startRun();
-    return;
-  }
-
-  if (gameState.getState() === GameStateEnum.Paused) {
-    resumeRun();
-  }
-});
-
 window.addEventListener('visibilitychange', () => {
   if (document.hidden && gameState.getState() === GameStateEnum.Running) {
     gameState.pauseGame();
