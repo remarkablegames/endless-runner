@@ -86,7 +86,7 @@ export const JUMP_DURATION = 0.6;
 /**
  * Duck duration in seconds.
  */
-export const DUCK_DURATION = 0.8;
+export const DUCK_DURATION = 0.5;
 
 /**
  * Jump height in world units.

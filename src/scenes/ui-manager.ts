@@ -80,7 +80,7 @@ export class UIManager {
     if (state === GameStateEnum.Start) {
       this.setPanel(
         'Endless Runner',
-        '3 lanes. Jump or crouch to avoid obstacles. Survive as speed ramps up.',
+        '3 lanes. Jump or duck to avoid obstacles. Survive as speed ramps up.',
         'Start Run',
         'start',
       );
