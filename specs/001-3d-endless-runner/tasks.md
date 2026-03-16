@@ -30,13 +30,13 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T004 [P] Create GameStateEnum type in src/types/game-state.ts (Start, Running, Paused, GameOver)
-- [ ] T005 [P] Create LaneIndex and InputDirection types in src/types/input.ts (LaneIndex: 0|1|2, InputDirection: LEFT|RIGHT|UP|DOWN)
-- [ ] T006 [P] Create ObstacleType and PlayerAction types in src/types/obstacle.ts
-- [ ] T007 [P] Create DifficultyConfig interface in src/types/difficulty-config.ts (baseSpeed, maxSpeed, speedIncreaseInterval, baseDensity, maxDensity, densityRampDuration)
-- [ ] T008 [P] Create game constants in src/config/game-constants.ts (LANE_X_POSITIONS: [-2, 0, 2], BASE_SPEED, MAX_SPEED, etc.)
-- [ ] T009 Create GameState class in src/core/game-state.ts (state, score, startTime, pauseTime, isRunning, state transition methods)
-- [ ] T010 Create InputHandler class in src/systems/input-handler.ts (keyboard event listeners, first-input-wins logic, 150ms queued-input lockout for rapid bursts)
+- [x] T004 [P] Create GameStateEnum type in src/types/game-state.ts (Start, Running, Paused, GameOver)
+- [x] T005 [P] Create LaneIndex and InputDirection types in src/types/input.ts (LaneIndex: 0|1|2, InputDirection: LEFT|RIGHT|UP|DOWN)
+- [x] T006 [P] Create ObstacleType and PlayerAction types in src/types/obstacle.ts
+- [x] T007 [P] Create DifficultyConfig interface in src/types/difficulty-config.ts (baseSpeed, maxSpeed, speedIncreaseInterval, baseDensity, maxDensity, densityRampDuration)
+- [x] T008 [P] Create game constants in src/config/game-constants.ts (LANE_X_POSITIONS: [-2, 0, 2], BASE_SPEED, MAX_SPEED, etc.)
+- [x] T009 Create GameState class in src/core/game-state.ts (state, score, startTime, pauseTime, isRunning, state transition methods)
+- [x] T010 Create InputHandler class in src/systems/input-handler.ts (keyboard event listeners, first-input-wins logic, 150ms queued-input lockout for rapid bursts)
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -58,7 +58,7 @@
 - [ ] T016 [US1] Connect InputHandler to Player movement in src/systems/input-system.ts (map LEFT/RIGHT to lane switches, UP to jump, DOWN to duck)
 - [ ] T017 [US1] Create PlayerVisual class in src/entities/player-visual.ts (Babylon.js mesh creation, lane transition lerp, jump/duck animation)
 - [ ] T018 [US1] Integrate PlayerVisual with Player state in src/entities/player-visual.ts (update method syncs with Player properties)
-- [ ] T019 [US1] Add input validation per FR-014 in src/systems/input-handler.ts (first-input-wins, ignore subsequent inputs until release)
+- [x] T019 [US1] Add input validation per FR-014 in src/systems/input-handler.ts (first-input-wins, ignore subsequent inputs until release)
 
 **Checkpoint**: At this point, User Story 1 should be fully functional and testable independently
 
@@ -81,12 +81,12 @@
 - [ ] T021 [P] [US2] Create ObstaclePattern class in src/entities/obstacle-pattern.ts (pattern definitions with minRunDuration and difficulty rating)
 - [ ] T022 [US2] Implement ObstacleSpawner in src/systems/obstacle-spawner.ts (spawn obstacles ahead of player, pattern selection, object pooling, validate each pattern is avoidable from every lane)
 - [ ] T023 [US2] Create ObstaclePool in src/systems/obstacle-pool.ts (reuse obstacle instances, activate/deactivate, prevent create/destroy overhead)
-- [ ] T024 [US2] Implement difficulty scaling in src/systems/difficulty-manager.ts (interpolate speed and density based on run duration per SC-008, SC-009)
+- [x] T024 [US2] Implement difficulty scaling in src/systems/difficulty-manager.ts (interpolate speed and density based on run duration per SC-008, SC-009)
 - [ ] T025 [US2] Create ObstacleVisual class in src/entities/obstacle-visual.ts (Babylon.js mesh creation per obstacle type, Babylon.js primitives for MVP)
 - [ ] T026 [US2] Integrate obstacle movement in src/systems/obstacle-system.ts (move obstacles toward player based on current speed)
 - [ ] T027 [US2] Add obstacle cleanup in src/systems/obstacle-pool.ts (deactivate obstacles that pass behind player, return to pool)
-- [ ] T028 [US2] Implement progressive speed increase per FR-019 in src/systems/difficulty-manager.ts (increase every 30 seconds)
-- [ ] T029 [US2] Implement progressive density increase per FR-020 in src/systems/difficulty-manager.ts (reach max by 3 minutes)
+- [x] T028 [US2] Implement progressive speed increase per FR-019 in src/systems/difficulty-manager.ts (increase every 30 seconds)
+- [x] T029 [US2] Implement progressive density increase per FR-020 in src/systems/difficulty-manager.ts (reach max by 3 minutes)
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work independently
 
@@ -111,7 +111,7 @@
 - [ ] T032 [US3] Create collision boxes for Player in src/entities/player-visual.ts (separate boxes for standing, jumping, ducking states)
 - [ ] T033 [US3] Create collision boxes for Obstacle in src/entities/obstacle-visual.ts (bounding box per obstacle type)
 - [ ] T034 [US3] Trigger game over on collision in src/core/game-state.ts (transition Running → GameOver when collision detected, freeze player input during collision resolution frame)
-- [ ] T035 [US3] Implement score tracking in src/core/game-state.ts (distance traveled, continuous update per SC-007)
+- [x] T035 [US3] Implement score tracking in src/core/game-state.ts (distance traveled, continuous update per SC-007)
 - [ ] T036 [US3] Add game over state handling in src/core/game-state.ts (freeze game loop, store final score)
 
 **Checkpoint**: At this point, User Stories 1, 2, AND 3 should all work independently
@@ -134,12 +134,12 @@
 - [ ] T037 [P] [US4] Create StartScreen in src/scenes/start-screen.ts (Babylon.js GUI with game title and start button)
 - [ ] T038 [P] [US4] Create GameOverScreen in src/scenes/game-over-screen.ts (display final score, restart option)
 - [ ] T039 [P] [US4] Create PauseOverlay in src/scenes/pause-overlay.ts (paused message, resume button)
-- [ ] T040 [US4] Implement state transition Start → Running in src/core/game-state.ts (on start game input, initialize score, set startTime)
-- [ ] T041 [US4] Implement state transition Running → Paused in src/core/game-state.ts (on pause input, set pauseTime, freeze all updates per FR-018)
-- [ ] T042 [US4] Implement state transition Paused → Running in src/core/game-state.ts (on resume input, clear pauseTime, resume from exact point)
-- [ ] T043 [US4] Implement state transition Running → GameOver in src/core/game-state.ts (on collision, trigger T034, display final score)
-- [ ] T044 [US4] Implement state transition GameOver → Running in src/core/game-state.ts (on restart, reset score, reset obstacles, new run per FR-013)
-- [ ] T045 [US4] Connect pause input to InputHandler in src/systems/input-handler.ts (P/Escape key triggers pause/resume)
+- [x] T040 [US4] Implement state transition Start → Running in src/core/game-state.ts (on start game input, initialize score, set startTime)
+- [x] T041 [US4] Implement state transition Running → Paused in src/core/game-state.ts (on pause input, set pauseTime, freeze all updates per FR-018)
+- [x] T042 [US4] Implement state transition Paused → Running in src/core/game-state.ts (on resume input, clear pauseTime, resume from exact point)
+- [x] T043 [US4] Implement state transition Running → GameOver in src/core/game-state.ts (on collision, trigger T034, display final score)
+- [x] T044 [US4] Implement state transition GameOver → Running in src/core/game-state.ts (on restart, reset score, reset obstacles, new run per FR-013)
+- [x] T045 [US4] Connect pause input to InputHandler in src/systems/input-handler.ts (P/Escape key triggers pause/resume)
 - [ ] T046 [US4] Connect restart input to InputHandler in src/systems/input-handler.ts (R key on game over screen triggers restart)
 - [ ] T047 [US4] Integrate UI screens with GameState in src/scenes/ui-manager.ts (show/hide screens based on current state)
 - [ ] T048 [US4] Implement score display update in src/scenes/ui-manager.ts (continuous distance display per SC-007, <100ms delay)
@@ -162,7 +162,7 @@
 - [ ] T049 [P] Add Babylon.js scene cleanup in src/scenes/game-scene.ts (dispose meshes, materials on state transitions per Decision 10)
 - [ ] T050 [P] Add object pooling optimization verification in src/systems/obstacle-pool.ts (ensure no create/destroy during gameplay)
 - [ ] T051 [P] Add debug mode for difficulty tuning in src/config/game-constants.ts (speed multiplier, density multiplier, invincibility toggle)
-- [ ] T052 [P] Verify TypeScript strict mode compliance (npm run lint:tsc, fix any type errors)
+- [x] T052 [P] Verify TypeScript strict mode compliance (npm run lint:tsc, fix any type errors)
 - [ ] T053 [P] Verify ESLint compliance (npm run lint:fix, fix any style errors)
 - [ ] T054 Update quickstart.md with final controls and troubleshooting (verify accuracy against implementation)
 - [ ] T055 [P] Add Babylon.js Inspector hook in src/scenes/game-scene.ts (scene.debugLayer.show() for performance profiling)
