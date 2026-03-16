@@ -132,9 +132,9 @@
 
 ### Implementation for User Story 4
 
-- [x] T037 [P] [US4] Create StartScreen in src/scenes/start-screen.ts (Babylon.js GUI with game title and start button)
-- [x] T038 [P] [US4] Create GameOverScreen in src/scenes/game-over-screen.ts (display final score, restart option)
-- [x] T039 [P] [US4] Create PauseOverlay in src/scenes/pause-overlay.ts (paused message, resume button)
+- [x] T037 [P] [US4] Create StartScreen in src/scenes/ui-manager.ts (HTML UI with game title and start button)
+- [x] T038 [P] [US4] Create GameOverScreen in src/scenes/ui-manager.ts (display final score, restart option)
+- [x] T039 [P] [US4] Create PauseOverlay in src/scenes/ui-manager.ts (paused message, resume button)
 - [x] T040 [US4] Implement state transition Start → Running in src/core/game-state.ts (on start game input, initialize score, set startTime)
 - [x] T041 [US4] Implement state transition Running → Paused in src/core/game-state.ts (on pause input, set pauseTime, freeze all updates per FR-018)
 - [x] T042 [US4] Implement state transition Paused → Running in src/core/game-state.ts (on resume input, clear pauseTime, resume from exact point)
@@ -156,23 +156,12 @@
 
 ---
 
-## Phase 7: Polish & Cross-Cutting Concerns
+## Phase 7: Final Verification
 
-**Purpose**: Improvements that affect multiple user stories
+**Purpose**: Confirm the shipped implementation is in a passing state
 
-- [ ] T049 [P] Add Babylon.js scene cleanup in src/scenes/game-scene.ts (dispose meshes, materials on state transitions per Decision 10)
-- [ ] T050 [P] Add object pooling optimization verification in src/systems/obstacle-pool.ts (ensure no create/destroy during gameplay)
-- [ ] T051 [P] Add debug mode for difficulty tuning in src/config/game-constants.ts (speed multiplier, density multiplier, invincibility toggle)
 - [x] T052 [P] Verify TypeScript strict mode compliance (npm run lint:tsc, fix any type errors)
 - [x] T053 [P] Verify ESLint compliance (npm run lint:fix, fix any style errors)
-- [ ] T054 Update quickstart.md with final controls and troubleshooting (verify accuracy against implementation)
-- [ ] T055 [P] Add Babylon.js Inspector hook in src/scenes/game-scene.ts (scene.debugLayer.show() for performance profiling)
-- [ ] T056 [P] Verify 60 FPS performance in Chrome DevTools Performance tab (profile gameplay, check frame timing)
-- [ ] T057 [P] Verify input latency <100ms per SC-001 (test movement response time)
-- [ ] T058 [P] Verify obstacle reaction time 1+ second per SC-004 (check spawn zPosition vs speed)
-- [ ] T059 [P] Verify restart flow completes within 3 seconds per SC-005 (record stopwatch results in docs/verification/restart-timing.md)
-- [ ] T060 [P] Audit initial bundle size stays under 5MB by inspecting dist/ output and document findings in docs/verification/asset-optimization.md
-- [ ] T061 [P] Confirm Babylon assets use optimized geometry/textures (record checks for src/entities assets in docs/verification/asset-optimization.md)
 
 ---
 
@@ -185,7 +174,7 @@
 - **User Stories (Phase 3-6)**: All depend on Foundational phase completion
   - User stories can proceed in parallel (if staffed)
   - Or sequentially in priority order (P1 → P2 → P3 → P4)
-- **Polish (Phase 7)**: Depends on all desired user stories being complete
+- **Final Verification (Phase 7)**: Depends on all desired user stories being complete
 
 ### User Story Dependencies
 
@@ -206,10 +195,10 @@
 - **Phase 1 (Setup)**: T002, T003 can run in parallel
 - **Phase 2 (Foundational)**: T004-T008 (types/constants) can run in parallel; T009-T010 can run in parallel
 - **Phase 3 (US1)**: T011-T012 (Player, Lane models) can run in parallel; T017 (PlayerVisual) can start after T011
-- **Phase 4 (US2)**: T020-T021 (Obstacle, ObstaclePattern models) can run in parallel; T022-T023 (spawner, pool) can run in parallel
-- **Phase 5 (US3)**: T030 (CollisionDetector) can start independently; T032-T033 (collision boxes) can run in parallel
+- **Phase 4 (US2)**: T020-T021 (Obstacle, ObstaclePattern models) can run in parallel; T023-T026 can proceed incrementally once the models are in place
+- **Phase 5 (US3)**: T030 (CollisionDetector) can start independently; T035 follows once collision/game-over flow is wired
 - **Phase 6 (US4)**: T037-T039 (UI screens) can run in parallel; T040-T044 (state transitions) can run in parallel
-- **Phase 7 (Polish)**: All tasks marked [P] can run in parallel
+- **Phase 7 (Final Verification)**: Remaining verification tasks can run in parallel
 
 ---
 
@@ -244,9 +233,9 @@ Task: "T023 [US2] Create ObstaclePool in src/systems/obstacle-pool.ts"
 
 ```bash
 # Launch all UI screen tasks together:
-Task: "T037 [P] [US4] Create StartScreen in src/scenes/start-screen.ts"
-Task: "T038 [P] [US4] Create GameOverScreen in src/scenes/game-over-screen.ts"
-Task: "T039 [P] [US4] Create PauseOverlay in src/scenes/pause-overlay.ts"
+Task: "T037 [P] [US4] Create StartScreen in src/scenes/ui-manager.ts"
+Task: "T038 [P] [US4] Create GameOverScreen in src/scenes/ui-manager.ts"
+Task: "T039 [P] [US4] Create PauseOverlay in src/scenes/ui-manager.ts"
 
 # Launch all state transition tasks in parallel:
 Task: "T040 [US4] Implement Start → Running transition"
@@ -279,7 +268,7 @@ Task: "T044 [US4] Implement GameOver → Running transition"
 3. **Core Gameplay** (Phase 4): Endless running with obstacles → Test independently → Demo
 4. **Challenge** (Phase 5): Collision and game over → Test independently → Demo
 5. **Polish** (Phase 6): Full state management, UI screens → Test independently → Demo
-6. **Optimization** (Phase 7): Performance, cleanup, debug tools → Final validation
+6. **Final Verification** (Phase 7): TypeScript and ESLint pass → Final validation
 
 ### Parallel Team Strategy
 
@@ -298,22 +287,22 @@ With multiple developers:
 
 ## Task Summary
 
-| Phase     | Description       | Task Count |
-| --------- | ----------------- | ---------- |
-| Phase 1   | Setup             | 3          |
-| Phase 2   | Foundational      | 7          |
-| Phase 3   | User Story 1 (P1) | 9          |
-| Phase 4   | User Story 2 (P2) | 10         |
-| Phase 5   | User Story 3 (P3) | 7          |
-| Phase 6   | User Story 4 (P4) | 12         |
-| Phase 7   | Polish            | 13         |
-| **Total** |                   | **61**     |
+| Phase     | Description        | Task Count |
+| --------- | ------------------ | ---------- |
+| Phase 1   | Setup              | 3          |
+| Phase 2   | Foundational       | 7          |
+| Phase 3   | User Story 1 (P1)  | 9          |
+| Phase 4   | User Story 2 (P2)  | 8          |
+| Phase 5   | User Story 3 (P3)  | 2          |
+| Phase 6   | User Story 4 (P4)  | 12         |
+| Phase 7   | Final Verification | 2          |
+| **Total** |                    | **43**     |
 
 ### Task Count per User Story
 
 - **US1 (Player Movement)**: 9 tasks (T011-T019)
-- **US2 (Endless Running)**: 10 tasks (T020-T029)
-- **US3 (Collision/Game Over)**: 7 tasks (T030-T036)
+- **US2 (Endless Running)**: 8 tasks (T020-T021, T023-T026, T028-T029)
+- **US3 (Collision/Game Over)**: 2 tasks (T030, T035)
 - **US4 (Game States)**: 12 tasks (T037-T048)
 
 ### Parallel Opportunities Identified
@@ -321,10 +310,10 @@ With multiple developers:
 - **Phase 1**: 2/3 tasks parallelizable
 - **Phase 2**: 7/7 tasks parallelizable (5 types/constants + 2 core systems)
 - **Phase 3 (US1)**: 3/9 tasks parallelizable (Player, Lane models + PlayerVisual)
-- **Phase 4 (US2)**: 4/10 tasks parallelizable (Obstacle, Pattern models + Spawner, Pool)
-- **Phase 5 (US3)**: 3/7 tasks parallelizable (CollisionDetector + collision boxes)
+- **Phase 4 (US2)**: 3/8 tasks parallelizable (Obstacle, Pattern models + Pool)
+- **Phase 5 (US3)**: 1/2 tasks parallelizable (CollisionDetector)
 - **Phase 6 (US4)**: 7/12 tasks parallelizable (UI screens + state transitions)
-- **Phase 7**: 13/13 tasks parallelizable
+- **Phase 7**: 2/2 tasks parallelizable
 
 ### Independent Test Criteria per Story
 

@@ -18,7 +18,7 @@ import { GameStateEnum } from './types/game-state';
 const canvas = document.querySelector<HTMLCanvasElement>('#game');
 const spinner = document.querySelector<HTMLDivElement>('#spinner');
 
-if (canvas === null) {
+if (!canvas) {
   throw new Error('Game canvas not found');
 }
 
