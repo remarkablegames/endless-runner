@@ -169,6 +169,9 @@
 - [ ] T056 [P] Verify 60 FPS performance in Chrome DevTools Performance tab (profile gameplay, check frame timing)
 - [ ] T057 [P] Verify input latency <100ms per SC-001 (test movement response time)
 - [ ] T058 [P] Verify obstacle reaction time 1+ second per SC-004 (check spawn zPosition vs speed)
+- [ ] T059 [P] Verify restart flow completes within 3 seconds per SC-005 (record stopwatch results in docs/verification/restart-timing.md)
+- [ ] T060 [P] Audit initial bundle size stays under 5MB by inspecting dist/ output and document findings in docs/verification/asset-optimization.md
+- [ ] T061 [P] Confirm Babylon assets use optimized geometry/textures (record checks for src/entities assets in docs/verification/asset-optimization.md)
 
 ---
 
@@ -302,8 +305,8 @@ With multiple developers:
 | Phase 4   | User Story 2 (P2) | 10         |
 | Phase 5   | User Story 3 (P3) | 7          |
 | Phase 6   | User Story 4 (P4) | 12         |
-| Phase 7   | Polish            | 10         |
-| **Total** |                   | **58**     |
+| Phase 7   | Polish            | 13         |
+| **Total** |                   | **61**     |
 
 ### Task Count per User Story
 
@@ -320,7 +323,7 @@ With multiple developers:
 - **Phase 4 (US2)**: 4/10 tasks parallelizable (Obstacle, Pattern models + Spawner, Pool)
 - **Phase 5 (US3)**: 3/7 tasks parallelizable (CollisionDetector + collision boxes)
 - **Phase 6 (US4)**: 7/12 tasks parallelizable (UI screens + state transitions)
-- **Phase 7**: 10/10 tasks parallelizable
+- **Phase 7**: 13/13 tasks parallelizable
 
 ### Independent Test Criteria per Story
 
