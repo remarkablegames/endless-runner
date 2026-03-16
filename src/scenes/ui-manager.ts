@@ -64,7 +64,7 @@ export class UIManager {
     if (state === GameStateEnum.Start) {
       this.setPanel(
         'Endless Runner',
-        'Three lanes. Jump low barriers, duck high ones, and survive as speed ramps up.',
+        '3 lanes. Jump or crouch to avoid obstacles. Survive as speed ramps up.',
         'Start Run',
         'start',
       );
@@ -72,19 +72,14 @@ export class UIManager {
     }
 
     if (state === GameStateEnum.Paused) {
-      this.setPanel(
-        'Paused',
-        'Run is frozen. Press P or Escape to resume.',
-        'Resume',
-        'resume',
-      );
+      this.setPanel('Paused', 'Press P or Esc to resume.', 'Resume', 'resume');
       return;
     }
 
     if (state === GameStateEnum.GameOver) {
       this.setPanel(
         'Game Over',
-        `Final distance ${String(Math.floor(score))}m. Press R or restart to run again.`,
+        `Final distance ${String(Math.floor(score))}m. Press R to restart.`,
         'Restart',
         'restart',
       );
