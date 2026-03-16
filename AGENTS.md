@@ -16,7 +16,7 @@ You're an expert engineer for this Babylon.js game.
 - **Tech Stack:**
   - Babylon.js 8 (game engine)
   - TypeScript 5 (strict mode)
-  - Vite 7 (build tool)
+  - Vite 8 (build tool)
   - Node.js 24
 - **File Structure:**
   - `src/` – game code

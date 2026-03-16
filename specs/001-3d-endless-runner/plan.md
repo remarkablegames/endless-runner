@@ -10,7 +10,7 @@ Build a 3D endless runner game with 4-directional movement (left/right lane swit
 ## Technical Context
 
 **Language/Version**: TypeScript 5 (strict mode)
-**Primary Dependencies**: Babylon.js 8 (game engine), Vite 7 (build tool)
+**Primary Dependencies**: Babylon.js 8 (game engine), Vite 8 (build tool)
 **Storage**: N/A (no persistent storage; in-memory game state)
 **Testing**: Manual playtesting; visual verification in browser
 **Target Platform**: Web browsers (WASM via Babylon.js)
