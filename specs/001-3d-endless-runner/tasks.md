@@ -50,14 +50,14 @@
 
 ### Implementation for User Story 1
 
-- [ ] T011 [P] [US1] Create Player class in src/entities/player.ts (currentLane, targetLane, isJumping, isDucking, jumpProgress, duckProgress, verticalPosition)
-- [ ] T012 [P] [US1] Create Lane utility in src/entities/lane.ts (index, xPosition, isLeftmost, isRightmost, getLeftNeighbor, getRightNeighbor)
-- [ ] T013 [US1] Implement Player lane switching logic in src/entities/player.ts (switchLane method with boundary checks per FR-007, FR-008, ignore new lane-switch inputs mid-transition)
-- [ ] T014 [US1] Implement Player jump action in src/entities/player.ts (startJump method, jump animation progress, vertical position interpolation, ignore additional jump inputs until landing)
-- [ ] T015 [US1] Implement Player duck action in src/entities/player.ts (startDuck method, duck animation progress, vertical position interpolation, reset duck duration on repeated input without stacking)
-- [ ] T016 [US1] Connect InputHandler to Player movement in src/systems/input-system.ts (map LEFT/RIGHT to lane switches, UP to jump, DOWN to duck)
-- [ ] T017 [US1] Create PlayerVisual class in src/entities/player-visual.ts (Babylon.js mesh creation, lane transition lerp, jump/duck animation)
-- [ ] T018 [US1] Integrate PlayerVisual with Player state in src/entities/player-visual.ts (update method syncs with Player properties)
+- [x] T011 [P] [US1] Create Player class in src/entities/player.ts (currentLane, targetLane, isJumping, isDucking, jumpProgress, duckProgress, verticalPosition)
+- [x] T012 [P] [US1] Create Lane utility in src/entities/lane.ts (index, xPosition, isLeftmost, isRightmost, getLeftNeighbor, getRightNeighbor)
+- [x] T013 [US1] Implement Player lane switching logic in src/entities/player.ts (switchLane method with boundary checks per FR-007, FR-008, ignore new lane-switch inputs mid-transition)
+- [x] T014 [US1] Implement Player jump action in src/entities/player.ts (startJump method, jump animation progress, vertical position interpolation, ignore additional jump inputs until landing)
+- [x] T015 [US1] Implement Player duck action in src/entities/player.ts (startDuck method, duck animation progress, vertical position interpolation, reset duck duration on repeated input without stacking)
+- [x] T016 [US1] Connect InputHandler to Player movement in src/systems/input-system.ts (map LEFT/RIGHT to lane switches, UP to jump, DOWN to duck)
+- [x] T017 [US1] Create PlayerVisual class in src/entities/player-visual.ts (Babylon.js mesh creation, lane transition lerp, jump/duck animation)
+- [x] T018 [US1] Integrate PlayerVisual with Player state in src/entities/player-visual.ts (update method syncs with Player properties)
 - [x] T019 [US1] Add input validation per FR-014 in src/systems/input-handler.ts (first-input-wins, ignore subsequent inputs until release)
 
 **Checkpoint**: At this point, User Story 1 should be fully functional and testable independently
@@ -77,13 +77,13 @@
 
 ### Implementation for User Story 2
 
-- [ ] T020 [P] [US2] Create Obstacle class in src/entities/obstacle.ts (id, lane, type, zPosition, isActive, requiresJump, requiresDuck, requiresLaneChange)
-- [ ] T021 [P] [US2] Create ObstaclePattern class in src/entities/obstacle-pattern.ts (pattern definitions with minRunDuration and difficulty rating)
+- [x] T020 [P] [US2] Create Obstacle class in src/entities/obstacle.ts (id, lane, type, zPosition, isActive, requiresJump, requiresDuck, requiresLaneChange)
+- [x] T021 [P] [US2] Create ObstaclePattern class in src/entities/obstacle-pattern.ts (pattern definitions with minRunDuration and difficulty rating)
 - [ ] T022 [US2] Implement ObstacleSpawner in src/systems/obstacle-spawner.ts (spawn obstacles ahead of player, pattern selection, object pooling, validate each pattern is avoidable from every lane)
-- [ ] T023 [US2] Create ObstaclePool in src/systems/obstacle-pool.ts (reuse obstacle instances, activate/deactivate, prevent create/destroy overhead)
+- [x] T023 [US2] Create ObstaclePool in src/systems/obstacle-pool.ts (reuse obstacle instances, activate/deactivate, prevent create/destroy overhead)
 - [x] T024 [US2] Implement difficulty scaling in src/systems/difficulty-manager.ts (interpolate speed and density based on run duration per SC-008, SC-009)
-- [ ] T025 [US2] Create ObstacleVisual class in src/entities/obstacle-visual.ts (Babylon.js mesh creation per obstacle type, Babylon.js primitives for MVP)
-- [ ] T026 [US2] Integrate obstacle movement in src/systems/obstacle-system.ts (move obstacles toward player based on current speed)
+- [x] T025 [US2] Create ObstacleVisual class in src/entities/obstacle-visual.ts (Babylon.js mesh creation per obstacle type, Babylon.js primitives for MVP)
+- [x] T026 [US2] Integrate obstacle movement in src/systems/obstacle-system.ts (move obstacles toward player based on current speed)
 - [ ] T027 [US2] Add obstacle cleanup in src/systems/obstacle-pool.ts (deactivate obstacles that pass behind player, return to pool)
 - [x] T028 [US2] Implement progressive speed increase per FR-019 in src/systems/difficulty-manager.ts (increase every 30 seconds)
 - [x] T029 [US2] Implement progressive density increase per FR-020 in src/systems/difficulty-manager.ts (reach max by 3 minutes)
@@ -106,7 +106,7 @@
 
 ### Implementation for User Story 3
 
-- [ ] T030 [P] [US3] Create CollisionDetector in src/systems/collision-detector.ts (bounding box intersection using Babylon.js intersectsMesh())
+- [x] T030 [P] [US3] Create CollisionDetector in src/systems/collision-detector.ts (bounding box intersection using Babylon.js intersectsMesh())
 - [ ] T031 [US3] Implement per-frame collision check in src/systems/collision-detector.ts (check player vs all active obstacles, <50ms detection per SC-003)
 - [ ] T032 [US3] Create collision boxes for Player in src/entities/player-visual.ts (separate boxes for standing, jumping, ducking states)
 - [ ] T033 [US3] Create collision boxes for Obstacle in src/entities/obstacle-visual.ts (bounding box per obstacle type)
@@ -140,9 +140,9 @@
 - [x] T043 [US4] Implement state transition Running → GameOver in src/core/game-state.ts (on collision, trigger T034, display final score)
 - [x] T044 [US4] Implement state transition GameOver → Running in src/core/game-state.ts (on restart, reset score, reset obstacles, new run per FR-013)
 - [x] T045 [US4] Connect pause input to InputHandler in src/systems/input-handler.ts (P/Escape key triggers pause/resume)
-- [ ] T046 [US4] Connect restart input to InputHandler in src/systems/input-handler.ts (R key on game over screen triggers restart)
-- [ ] T047 [US4] Integrate UI screens with GameState in src/scenes/ui-manager.ts (show/hide screens based on current state)
-- [ ] T048 [US4] Implement score display update in src/scenes/ui-manager.ts (continuous distance display per SC-007, <100ms delay)
+- [x] T046 [US4] Connect restart input to InputHandler in src/systems/input-handler.ts (R key on game over screen triggers restart)
+- [x] T047 [US4] Integrate UI screens with GameState in src/scenes/ui-manager.ts (show/hide screens based on current state)
+- [x] T048 [US4] Implement score display update in src/scenes/ui-manager.ts (continuous distance display per SC-007, <100ms delay)
 
 **Checkpoint**: All user stories are now complete and integrated
 
@@ -163,7 +163,7 @@
 - [ ] T050 [P] Add object pooling optimization verification in src/systems/obstacle-pool.ts (ensure no create/destroy during gameplay)
 - [ ] T051 [P] Add debug mode for difficulty tuning in src/config/game-constants.ts (speed multiplier, density multiplier, invincibility toggle)
 - [x] T052 [P] Verify TypeScript strict mode compliance (npm run lint:tsc, fix any type errors)
-- [ ] T053 [P] Verify ESLint compliance (npm run lint:fix, fix any style errors)
+- [x] T053 [P] Verify ESLint compliance (npm run lint:fix, fix any style errors)
 - [ ] T054 Update quickstart.md with final controls and troubleshooting (verify accuracy against implementation)
 - [ ] T055 [P] Add Babylon.js Inspector hook in src/scenes/game-scene.ts (scene.debugLayer.show() for performance profiling)
 - [ ] T056 [P] Verify 60 FPS performance in Chrome DevTools Performance tab (profile gameplay, check frame timing)
