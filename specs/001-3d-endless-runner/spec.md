@@ -11,7 +11,7 @@
 
 - Q: How should the game handle when multiple directional inputs are pressed at the same time? → A: First-input-wins (whichever key was pressed first is the only one that registers)
 - Q: What obstacle types should the game support and which movement directions are meaningful for avoiding them? → A: Lane-based obstacles (discrete lanes, left/right switches, up/down for jump/duck)
-- Q: What game states should exist and how does the player transition between them? → A: Full states: Start Screen → Running → Paused → Game Over → Restart
+- Q: What game states should exist and how does the player transition between them? → A: Start Screen → Running → Paused → Game Over, with restart immediately returning to Running after cleanup
 - Q: How many discrete lanes should the game have? → A: 3 lanes (left, center, right) - standard, easy to parse visually
 - Q: How should obstacle patterns and game difficulty evolve during a run? → A: Progressive scaling (speed and obstacle density increase gradually over time/distance)
 
@@ -92,12 +92,12 @@ As a player, I want the game to have clear states (start screen, running, paused
 ### Edge Cases
 
 - When the player presses multiple movement controls simultaneously, the system MUST register only the first input received and ignore subsequent inputs until the first is released
-- How does the system handle rapid successive inputs (e.g., pressing left-right-left within 0.5 seconds)?
-- What happens when the player is jumping and presses up again before landing?
-- What happens when the player is ducking and presses down again before standing?
-- How does the system handle movement input during the collision detection frame?
-- What happens if an obstacle spawns in a position that is impossible to avoid given current player position?
-- How does the system handle lane transitions when the player is mid-switch between lanes?
+- When rapid successive inputs occur (e.g., left-right-left within 0.5 seconds), additional commands MUST be queued and processed only after the current action completes or 150ms has elapsed, whichever is later
+- When the player is already jumping and presses up again before landing, the additional input MUST be ignored (no double jump)
+- When the player is ducking and presses down again before standing, the duck duration MUST reset to its full length but MUST NOT stack beyond that window
+- During the collision detection frame, movement inputs MUST be ignored until collision resolution finishes (either run continues or transitions to Game Over)
+- Obstacle spawning logic MUST validate that every generated pattern is avoidable from any lane by at least one action (lane change, jump, or duck)
+- While the player is mid-switch between lanes, new lane-switch inputs MUST be ignored until the current transition finishes to prevent jitter or double moves
 
 ## Requirements
 

@@ -14,7 +14,7 @@
 
 **Rationale**:
 
-- TypeScript enums provide type safety for game states (Start, Running, Paused, GameOver, Restarting)
+- TypeScript enums provide type safety for game states (Start, Running, Paused, GameOver)
 - Explicit state transitions prevent invalid state combinations
 - Easy to add state entry/exit hooks for UI updates, audio, and gameplay logic
 - Aligns with Constitution Principle III (TypeScript Strict Mode)

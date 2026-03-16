@@ -5,7 +5,7 @@
 
 ## Summary
 
-Build a 3D endless runner game with 4-directional movement (left/right lane switching, up/jump, down/duck) across 3 discrete lanes. The game features progressive difficulty scaling, full state management (Start→Running→Paused→GameOver→Restart), and lane-based obstacle avoidance. Player controls a character that automatically runs forward while dodging obstacles through lane changes, jumps, and slides.
+Build a 3D endless runner game with 4-directional movement (left/right lane switching, up/jump, down/duck) across 3 discrete lanes. The game features progressive difficulty scaling, full state management (Start→Running→Paused→GameOver with direct restart back to Running), and lane-based obstacle avoidance. Player controls a character that automatically runs forward while dodging obstacles through lane changes, jumps, and slides.
 
 ## Technical Context
 
@@ -17,7 +17,7 @@ Build a 3D endless runner game with 4-directional movement (left/right lane swit
 **Project Type**: Web game (3D browser-based endless runner)
 **Performance Goals**: 60 FPS minimum, <100ms input latency, <5MB initial load
 **Constraints**: Must maintain 60 FPS, progressive difficulty over 3+ minutes, obstacles must allow 1+ second reaction time
-**Scale/Scope**: Single game scene, 3-lane system, 5 game states, progressive difficulty scaling
+**Scale/Scope**: Single game scene, 3-lane system, 4 game states (Start, Running, Paused, GameOver) with direct restart back to Running, plus progressive difficulty scaling
 
 ## Constitution Check
 

@@ -30,7 +30,7 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T004 [P] Create GameStateEnum type in src/types/game-state.ts (Start, Running, Paused, GameOver, Restarting)
+- [ ] T004 [P] Create GameStateEnum type in src/types/game-state.ts (Start, Running, Paused, GameOver)
 - [ ] T005 [P] Create LaneIndex and InputDirection types in src/types/input.ts (LaneIndex: 0|1|2, InputDirection: LEFT|RIGHT|UP|DOWN)
 - [ ] T006 [P] Create ObstacleType and PlayerAction types in src/types/obstacle.ts
 - [ ] T007 [P] Create DifficultyConfig interface in src/types/difficulty-config.ts (baseSpeed, maxSpeed, speedIncreaseInterval, baseDensity, maxDensity, densityRampDuration)
@@ -138,7 +138,7 @@
 - [ ] T041 [US4] Implement state transition Running → Paused in src/core/game-state.ts (on pause input, set pauseTime, freeze all updates per FR-018)
 - [ ] T042 [US4] Implement state transition Paused → Running in src/core/game-state.ts (on resume input, clear pauseTime, resume from exact point)
 - [ ] T043 [US4] Implement state transition Running → GameOver in src/core/game-state.ts (on collision, trigger T034, display final score)
-- [ ] T044 [US4] Implement state transition GameOver → Restarting → Running in src/core/game-state.ts (on restart, reset score, reset obstacles, new run per FR-013)
+- [ ] T044 [US4] Implement state transition GameOver → Running in src/core/game-state.ts (on restart, reset score, reset obstacles, new run per FR-013)
 - [ ] T045 [US4] Connect pause input to InputHandler in src/systems/input-handler.ts (P/Escape key triggers pause/resume)
 - [ ] T046 [US4] Connect restart input to InputHandler in src/systems/input-handler.ts (R key on game over screen triggers restart)
 - [ ] T047 [US4] Integrate UI screens with GameState in src/scenes/ui-manager.ts (show/hide screens based on current state)
@@ -252,7 +252,7 @@ Task: "T040 [US4] Implement Start → Running transition"
 Task: "T041 [US4] Implement Running → Paused transition"
 Task: "T042 [US4] Implement Paused → Running transition"
 Task: "T043 [US4] Implement Running → GameOver transition"
-Task: "T044 [US4] Implement GameOver → Restarting → Running transition"
+Task: "T044 [US4] Implement GameOver → Running transition"
 ```
 
 ---
@@ -330,7 +330,7 @@ With multiple developers:
 - **US1**: Player spawns in empty scene, all 4 directional inputs work with boundary checks
 - **US2**: Game runs with no input, obstacles spawn fairly, speed/density increase over time
 - **US3**: Intentional collision triggers game over within 50ms, score tracked
-- **US4**: All 5 states (Start, Running, Paused, GameOver, Restarting) transition correctly with UI
+- **US4**: All 4 states (Start, Running, Paused, GameOver) transition correctly with UI and restart returns directly to Running
 
 ### Suggested MVP Scope
 

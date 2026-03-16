@@ -14,7 +14,7 @@ Represents the current state of the game session.
 
 **Fields**:
 
-- `state`: GameStateEnum - Current game state (Start, Running, Paused, GameOver, Restarting)
+- `state`: GameStateEnum - Current game state (Start, Running, Paused, GameOver)
 - `score`: number - Distance traveled in current run
 - `startTime`: number - Timestamp when current run began
 - `pauseTime`: number | null - Timestamp when game was paused (null if not paused)
@@ -33,7 +33,7 @@ Start → Running (on start game)
 Running → Paused (on pause input)
 Paused → Running (on resume input)
 Running → GameOver (on collision)
-GameOver → Restarting → Running (on restart)
+GameOver → Running (on restart)
 ```
 
 ---
@@ -188,7 +188,6 @@ enum GameStateEnum {
   Running = 'RUNNING',
   Paused = 'PAUSED',
   GameOver = 'GAME_OVER',
-  Restarting = 'RESTARTING',
 }
 
 // Lane index type
@@ -261,11 +260,6 @@ DifficultyConfig ──controls──> speed, density over time
 │  Game Over  │
 └──────┬──────┘
        │ Restart
-       ▼
-┌─────────────┐
-│  Restarting │
-└──────┬──────┘
-       │ Reset Complete
        ▼
 ┌─────────────┐
 │   Running   │
