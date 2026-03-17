@@ -11,9 +11,6 @@ interface GameOverlayProps {
   onPrimaryAction: () => void;
 }
 
-const ROOT_CLASS_NAME =
-  'pointer-events-none fixed inset-0 z-2 grid grid-rows-[auto_1fr]';
-
 export function GameOverlay({
   rootRef,
   scoreLabelRef,
@@ -24,7 +21,11 @@ export function GameOverlay({
   onPrimaryAction,
 }: GameOverlayProps) {
   return (
-    <div id="ui-overlay" class={ROOT_CLASS_NAME} ref={rootRef}>
+    <div
+      id="ui-overlay"
+      className="pointer-events-none fixed inset-0 z-2 grid grid-rows-[auto_1fr]"
+      ref={rootRef}
+    >
       <ScoreDisplay scoreLabelRef={scoreLabelRef} />
       <StatePanel
         panelRef={panelRef}
