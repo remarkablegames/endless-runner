@@ -1,11 +1,1 @@
 @import 'tailwindcss';
-
-@layer base {
-  :root {
-    color: #f2f7fb;
-    font-family: 'Trebuchet MS', 'Avenir Next', sans-serif;
-    background:
-      radial-gradient(circle at top, rgba(57, 145, 214, 0.26), transparent 34%),
-      linear-gradient(180deg, #090d13 0%, #020305 100%);
-  }
-}
