@@ -6,8 +6,8 @@ interface UIManagerCallbacks {
   onRestart: () => void;
 }
 
-const HIDDEN_CLASS_NAME = 'pointer-events-none opacity-0';
 const INVISIBLE_CLASS_NAME = 'opacity-0';
+const HIDDEN_CLASS_NAME = `pointer-events-none ${INVISIBLE_CLASS_NAME}`;
 
 /**
  * Lightweight DOM UI for game states and score.
@@ -123,7 +123,7 @@ export class UIManager {
       return;
     }
 
-    this.panel.classList.add('pointer-events-none', 'opacity-0');
+    this.panel.classList.add(...HIDDEN_CLASS_NAME.split(' '));
   }
 
   /**
@@ -139,7 +139,7 @@ export class UIManager {
     buttonLabel: string,
     mode: 'start' | 'resume' | 'restart',
   ): void {
-    this.panel.classList.remove('pointer-events-none', 'opacity-0');
+    this.panel.classList.remove(...HIDDEN_CLASS_NAME.split(' '));
     this.buttonMode = mode;
     this.title.textContent = title;
     this.message.textContent = message;
