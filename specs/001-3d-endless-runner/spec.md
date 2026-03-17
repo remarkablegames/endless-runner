@@ -2,7 +2,7 @@
 
 **Feature Branch**: `001-3d-endless-runner`
 **Created**: 2026-03-16
-**Status**: Draft
+**Status**: Done
 **Input**: User description: "3D endless runner game where player can move left, right, up, and down"
 
 ## Clarifications
