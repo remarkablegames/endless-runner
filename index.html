@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="h-full w-full">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" href="/logo.svg" />
@@ -18,10 +18,15 @@
     <link rel="manifest" href="/manifest.webmanifest" />
     <title>Endless Runner | remarkablegames</title>
   </head>
-  <body>
+  <body class="h-full w-full select-none">
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="spinner" role="progressbar" aria-label="Loading"></div>
-    <canvas id="game" class="outline-none"></canvas>
+    <div
+      id="spinner"
+      class="fixed top-1/2 left-1/2 z-3 h-24 w-24 -translate-x-1/2 -translate-y-1/2 rounded-full border-4 border-[rgb(242_247_251_/_0.18)] border-t-[#49d7d0] animate-spin"
+      role="progressbar"
+      aria-label="Loading"
+    ></div>
+    <canvas id="game" class="h-full w-full outline-none"></canvas>
     <script type="module" src="/src/main.ts"></script>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
