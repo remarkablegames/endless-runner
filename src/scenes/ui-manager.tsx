@@ -16,7 +16,8 @@ type OverlayPanelContent = PanelContent & {
  * Lightweight DOM UI for game states and score.
  */
 export class UIManager {
-  private root: HTMLDivElement;
+  private readonly root: HTMLDivElement;
+  private readonly contentRoot: HTMLDivElement;
   private readonly callbacks: UIManagerCallbacks;
   private buttonMode: ButtonMode = 'start';
   private lastRenderedState: GameStateEnum | null = null;
@@ -24,8 +25,16 @@ export class UIManager {
 
   constructor(callbacks: UIManagerCallbacks) {
     this.callbacks = callbacks;
-    this.root = this.createOverlay('', false, null);
+    this.root = document.createElement('div');
+    this.root.id = 'ui-overlay';
+    this.root.className =
+      'pointer-events-none fixed inset-0 z-2 grid grid-rows-[auto_1fr]';
+
+    this.contentRoot = document.createElement('div');
+    this.contentRoot.className = 'contents';
+    this.root.append(this.contentRoot);
     document.body.append(this.root);
+    this.updateOverlay('', false, null);
   }
 
   /**
@@ -48,13 +57,11 @@ export class UIManager {
       this.buttonMode = panelContent.mode;
     }
 
-    const nextRoot = this.createOverlay(
+    this.updateOverlay(
       `Distance ${String(roundedScore)}m`,
       state !== GameStateEnum.Start,
       panelContent,
     );
-    this.root.replaceWith(nextRoot);
-    this.root = nextRoot;
   }
 
   /**
@@ -113,25 +120,20 @@ export class UIManager {
     return null;
   }
 
-  private createOverlay(
+  private updateOverlay(
     scoreText: string,
     isScoreVisible: boolean,
     panelContent: PanelContent | null,
-  ): HTMLDivElement {
-    return (
-      <div
-        id="ui-overlay"
-        className="pointer-events-none fixed inset-0 z-2 grid grid-rows-[auto_1fr]"
-      >
-        <GameOverlay
-          scoreText={scoreText}
-          isScoreVisible={isScoreVisible}
-          panelContent={panelContent}
-          onPrimaryAction={() => {
-            this.handlePrimaryAction();
-          }}
-        />
-      </div>
-    ) as HTMLDivElement;
+  ): void {
+    this.contentRoot.replaceChildren(
+      <GameOverlay
+        scoreText={scoreText}
+        isScoreVisible={isScoreVisible}
+        panelContent={panelContent}
+        onPrimaryAction={() => {
+          this.handlePrimaryAction();
+        }}
+      />,
+    );
   }
 }
