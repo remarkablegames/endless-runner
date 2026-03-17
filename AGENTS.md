@@ -15,18 +15,13 @@ You're an expert engineer for this Babylon.js game.
 
 - **Tech Stack:**
   - Babylon.js 8 (game engine)
+  - jsx-dom 8 (UI library)
+  - Tailwind CSS 4
   - TypeScript 5 (strict mode)
   - Vite 8 (build tool)
   - Node.js 24
 - **File Structure:**
   - `src/` – game code
-    - `config/` – configuration
-    - `core/` – core game logic
-    - `entities/` – game entities
-    - `scenes/` – scene definitions
-    - `systems/` – game systems
-    - `types/` – TypeScript types
-    - `utils/` – utility functions
   - `public/` – game assets
 
 ## Tools you can use
