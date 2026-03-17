@@ -6,6 +6,8 @@
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "types": ["vite/client"],
+    "jsx": "react-jsx",
+    "jsxImportSource": "jsx-dom",
     "skipLibCheck": true,
 
     /* Bundler mode */
