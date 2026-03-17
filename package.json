@@ -17,7 +17,8 @@
   "homepage": "https://remarkablegames.org/endless-runner/",
   "dependencies": {
     "@babylonjs/core": "8.55.2",
-    "@babylonjs/inspector": "8.55.2"
+    "@babylonjs/inspector": "8.55.2",
+    "jsx-dom": "8.1.6"
   },
   "devDependencies": {
     "@commitlint/cli": "20.5.0",
