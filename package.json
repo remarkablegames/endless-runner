@@ -18,7 +18,10 @@
   "dependencies": {
     "@babylonjs/core": "8.55.2",
     "@babylonjs/inspector": "8.55.2",
-    "jsx-dom": "8.1.6"
+    "@tailwindcss/postcss": "4.2.1",
+    "jsx-dom": "8.1.6",
+    "postcss": "8.5.8",
+    "tailwindcss": "4.2.1"
   },
   "devDependencies": {
     "@commitlint/cli": "20.5.0",

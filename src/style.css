@@ -1,3 +1,5 @@
+@import 'tailwindcss';
+
 :root {
   color: #f2f7fb;
   font-family: 'Trebuchet MS', 'Avenir Next', sans-serif;
@@ -23,10 +25,6 @@ body,
 body {
   overflow: hidden;
   user-select: none;
-}
-
-#game:focus {
-  outline: none;
 }
 
 #spinner {
