@@ -22,5 +22,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["*.mjs", "*.mts"]
+  "include": ["*.mts"]
 }
