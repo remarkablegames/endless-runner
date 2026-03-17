@@ -1,50 +1,177 @@
-import { StandardMaterial } from '@babylonjs/core/Materials/standardMaterial';
-import { Color3 } from '@babylonjs/core/Maths/math.color';
-import type { Vector3 } from '@babylonjs/core/Maths/math.vector';
-import { MeshBuilder } from '@babylonjs/core/Meshes/meshBuilder';
-import type { Scene } from '@babylonjs/core/scene';
-
-import { Entity } from './Entity';
+import {
+  DUCK_DURATION,
+  DUCK_HEIGHT_REDUCTION,
+  JUMP_DURATION,
+  JUMP_HEIGHT,
+  LANE_TRANSITION_DURATION,
+} from '../config/game-constants';
+import type { LaneIndex } from '../types/input';
+import type { PlayerAction } from '../types/obstacle';
 
 /**
- * Example player entity with movement
+ * Player class - represents the player character entity.
  */
-export class Player extends Entity {
-  private moveSpeed: number;
+export class Player {
+  private currentLane: LaneIndex = 1;
+  private targetLane: LaneIndex = 1;
+  private isJumping = false;
+  private isDucking = false;
+  private jumpProgress = 0;
+  private duckProgress = 0;
+  private verticalPosition = 0;
+  private targetVerticalPosition = 0;
+  private laneTransitionProgress = 0;
+  private currentAction: PlayerAction = 'NONE';
 
-  constructor(scene: Scene, position: Vector3) {
-    // Create player mesh (sphere)
-    const mesh = MeshBuilder.CreateSphere('player', { diameter: 1 }, scene);
-    const material = new StandardMaterial('playerMaterial', scene);
-    material.diffuseColor = new Color3(1, 0.4, 0.4);
-    material.specularColor = new Color3(0.5, 0.5, 0.5);
-    mesh.material = material;
-    mesh.position = position;
-
-    super(mesh);
-
-    this.moveSpeed = 5;
+  public getCurrentLane(): LaneIndex {
+    return this.currentLane;
   }
 
-  /**
-   * Move the player in a direction
-   */
-  move(direction: Vector3, deltaTime: number) {
-    const movement = direction.scale(this.moveSpeed * deltaTime);
-    this.mesh.position.addInPlace(movement);
+  public getTargetLane(): LaneIndex {
+    return this.targetLane;
   }
 
-  /**
-   * Set movement speed
-   */
-  setSpeed(speed: number) {
-    this.moveSpeed = speed;
+  public isSwitchingLanes(): boolean {
+    return this.currentLane !== this.targetLane;
   }
 
-  /**
-   * Update player
-   */
-  override update() {
-    // Override for player-specific update logic
+  public getIsJumping(): boolean {
+    return this.isJumping;
+  }
+
+  public getIsDucking(): boolean {
+    return this.isDucking;
+  }
+
+  public getJumpProgress(): number {
+    return this.jumpProgress;
+  }
+
+  public getDuckProgress(): number {
+    return this.duckProgress;
+  }
+
+  public getVerticalPosition(): number {
+    return this.verticalPosition;
+  }
+
+  public getCurrentAction(): PlayerAction {
+    return this.currentAction;
+  }
+
+  public switchLane(lane: LaneIndex): boolean {
+    if (this.isSwitchingLanes() || this.isJumping || this.isDucking) {
+      return false;
+    }
+
+    if (lane === this.currentLane) {
+      return false;
+    }
+
+    this.targetLane = lane;
+    this.laneTransitionProgress = 0;
+    this.currentAction = 'LANE_CHANGE';
+    return true;
+  }
+
+  public startJump(): boolean {
+    if (this.isJumping || this.isDucking || this.isSwitchingLanes()) {
+      return false;
+    }
+
+    this.isJumping = true;
+    this.jumpProgress = 0;
+    this.targetVerticalPosition = JUMP_HEIGHT;
+    this.currentAction = 'JUMP';
+    return true;
+  }
+
+  public startDuck(): boolean {
+    if (this.isJumping) {
+      return false;
+    }
+
+    if (this.isDucking) {
+      this.duckProgress = 0;
+      this.targetVerticalPosition = -DUCK_HEIGHT_REDUCTION;
+      this.currentAction = 'DUCK';
+      return true;
+    }
+
+    if (this.isSwitchingLanes()) {
+      return false;
+    }
+
+    this.isDucking = true;
+    this.duckProgress = 0;
+    this.targetVerticalPosition = -DUCK_HEIGHT_REDUCTION;
+    this.currentAction = 'DUCK';
+    return true;
+  }
+
+  public update(deltaTime: number): void {
+    if (this.isSwitchingLanes()) {
+      this.laneTransitionProgress += deltaTime / LANE_TRANSITION_DURATION;
+      if (this.laneTransitionProgress >= 1) {
+        this.currentLane = this.targetLane;
+        this.laneTransitionProgress = 0;
+        this.currentAction = 'NONE';
+      }
+    }
+
+    if (this.isJumping) {
+      this.jumpProgress += deltaTime / JUMP_DURATION;
+      if (this.jumpProgress >= 1) {
+        this.isJumping = false;
+        this.jumpProgress = 0;
+        this.verticalPosition = 0;
+        this.targetVerticalPosition = 0;
+        this.currentAction = 'NONE';
+      } else {
+        this.verticalPosition =
+          Math.sin(this.jumpProgress * Math.PI) * JUMP_HEIGHT;
+      }
+    }
+
+    if (this.isDucking) {
+      this.duckProgress += deltaTime / DUCK_DURATION;
+      if (this.duckProgress >= 1) {
+        this.isDucking = false;
+        this.duckProgress = 0;
+        this.verticalPosition = 0;
+        this.targetVerticalPosition = 0;
+        this.currentAction = 'NONE';
+      } else {
+        this.verticalPosition = -this.duckProgress * DUCK_HEIGHT_REDUCTION;
+      }
+    }
+
+    if (!this.isJumping && !this.isDucking) {
+      this.verticalPosition +=
+        (this.targetVerticalPosition - this.verticalPosition) * 0.2;
+    }
+  }
+
+  public getInterpolatedX(lanePositions: Record<LaneIndex, number>): number {
+    if (!this.isSwitchingLanes()) {
+      return lanePositions[this.currentLane];
+    }
+
+    const startX = lanePositions[this.currentLane];
+    const endX = lanePositions[this.targetLane];
+    return startX + (endX - startX) * this.laneTransitionProgress;
+  }
+
+  public reset(): void {
+    this.currentLane = 1;
+    this.targetLane = 1;
+    this.isJumping = false;
+    this.isDucking = false;
+    this.jumpProgress = 0;
+    this.duckProgress = 0;
+    this.verticalPosition = 0;
+    this.targetVerticalPosition = 0;
+    this.laneTransitionProgress = 0;
+    this.currentAction = 'NONE';
   }
 }
