@@ -1,5 +1,5 @@
 import { GameStateEnum } from '../types/game-state';
-import { GameOverlay } from '../ui';
+import { GameOverlay, type PanelContent } from '../ui';
 
 interface UIManagerCallbacks {
   onStart: () => void;
@@ -8,27 +8,15 @@ interface UIManagerCallbacks {
 }
 
 type ButtonMode = 'start' | 'resume' | 'restart';
-
-interface PanelContent {
-  title: string;
-  message: string;
-  buttonLabel: string;
+type OverlayPanelContent = PanelContent & {
   mode: ButtonMode;
-}
-
-const INVISIBLE_CLASS_NAME = 'opacity-0';
-const HIDDEN_CLASS_NAMES = ['pointer-events-none', INVISIBLE_CLASS_NAME];
+};
 
 /**
  * Lightweight DOM UI for game states and score.
  */
 export class UIManager {
-  private readonly root: HTMLDivElement;
-  private readonly title: HTMLHeadingElement;
-  private readonly message: HTMLParagraphElement;
-  private readonly primaryButton: HTMLButtonElement;
-  private readonly scoreLabel: HTMLDivElement;
-  private readonly panel: HTMLDivElement;
+  private root: HTMLDivElement;
   private readonly callbacks: UIManagerCallbacks;
   private buttonMode: ButtonMode = 'start';
   private lastRenderedState: GameStateEnum | null = null;
@@ -36,61 +24,8 @@ export class UIManager {
 
   constructor(callbacks: UIManagerCallbacks) {
     this.callbacks = callbacks;
-
-    const refs: {
-      root?: HTMLDivElement;
-      scoreLabel?: HTMLDivElement;
-      panel?: HTMLDivElement;
-      title?: HTMLHeadingElement;
-      message?: HTMLParagraphElement;
-      primaryButton?: HTMLButtonElement;
-    } = {};
-
-    const overlay = (
-      <GameOverlay
-        rootRef={(node) => {
-          refs.root = node;
-        }}
-        scoreLabelRef={(node) => {
-          refs.scoreLabel = node;
-        }}
-        panelRef={(node) => {
-          refs.panel = node;
-        }}
-        titleRef={(node) => {
-          refs.title = node;
-        }}
-        messageRef={(node) => {
-          refs.message = node;
-        }}
-        primaryButtonRef={(node) => {
-          refs.primaryButton = node;
-        }}
-        onPrimaryAction={() => {
-          this.handlePrimaryAction();
-        }}
-      />
-    );
-
-    document.body.append(overlay);
-
-    if (
-      refs.root === undefined ||
-      refs.scoreLabel === undefined ||
-      refs.panel === undefined ||
-      refs.title === undefined ||
-      refs.message === undefined ||
-      refs.primaryButton === undefined
-    ) {
-      throw new Error('Failed to initialize UI overlay');
-    }
-
-    this.root = refs.root;
-    this.scoreLabel = refs.scoreLabel;
-    this.panel = refs.panel;
-    this.title = refs.title;
-    this.message = refs.message;
-    this.primaryButton = refs.primaryButton;
+    this.root = this.createOverlay('', false, null);
+    document.body.append(this.root);
   }
 
   /**
@@ -98,33 +33,28 @@ export class UIManager {
    */
   public render(state: GameStateEnum, score: number): void {
     const roundedScore = Math.floor(score);
-    if (roundedScore !== this.lastRenderedScore) {
-      this.scoreLabel.textContent = `Distance ${String(roundedScore)}m`;
-      this.lastRenderedScore = roundedScore;
-    }
-
-    this.scoreLabel.classList.toggle(
-      INVISIBLE_CLASS_NAME,
-      state === GameStateEnum.Start,
-    );
-
-    if (state === this.lastRenderedState) {
+    if (
+      state === this.lastRenderedState &&
+      roundedScore === this.lastRenderedScore
+    ) {
       return;
     }
 
     this.lastRenderedState = state;
+    this.lastRenderedScore = roundedScore;
 
     const panelContent = this.getPanelContent(state, roundedScore);
-    if (panelContent === null) {
-      this.panel.classList.add(...HIDDEN_CLASS_NAMES);
-      return;
+    if (panelContent !== null) {
+      this.buttonMode = panelContent.mode;
     }
 
-    this.panel.classList.remove(...HIDDEN_CLASS_NAMES);
-    this.buttonMode = panelContent.mode;
-    this.title.textContent = panelContent.title;
-    this.message.textContent = panelContent.message;
-    this.primaryButton.textContent = panelContent.buttonLabel;
+    const nextRoot = this.createOverlay(
+      `Distance ${String(roundedScore)}m`,
+      state !== GameStateEnum.Start,
+      panelContent,
+    );
+    this.root.replaceWith(nextRoot);
+    this.root = nextRoot;
   }
 
   /**
@@ -151,7 +81,7 @@ export class UIManager {
   private getPanelContent(
     state: GameStateEnum,
     roundedScore: number,
-  ): PanelContent | null {
+  ): OverlayPanelContent | null {
     if (state === GameStateEnum.Start) {
       return {
         title: 'Endless Runner',
@@ -181,5 +111,27 @@ export class UIManager {
     }
 
     return null;
+  }
+
+  private createOverlay(
+    scoreText: string,
+    isScoreVisible: boolean,
+    panelContent: PanelContent | null,
+  ): HTMLDivElement {
+    return (
+      <div
+        id="ui-overlay"
+        className="pointer-events-none fixed inset-0 z-2 grid grid-rows-[auto_1fr]"
+      >
+        <GameOverlay
+          scoreText={scoreText}
+          isScoreVisible={isScoreVisible}
+          panelContent={panelContent}
+          onPrimaryAction={() => {
+            this.handlePrimaryAction();
+          }}
+        />
+      </div>
+    ) as HTMLDivElement;
   }
 }
