@@ -7,7 +7,7 @@
 [![release](https://img.shields.io/github/v/release/remarkablegames/endless-runner)](https://github.com/remarkablegames/endless-runner/releases)
 [![build](https://github.com/remarkablegames/endless-runner/actions/workflows/build.yml/badge.svg)](https://github.com/remarkablegames/endless-runner/actions/workflows/build.yml)
 
-🏃 Endless Runner game where the player has to dodge obstacles and keep moving forward.
+🏃 <kbd>Endless Runner</kbd> game where the player has to dodge obstacles and keep moving forward. Controls are arrow keys or WASD.
 
 Play the game on:
 
