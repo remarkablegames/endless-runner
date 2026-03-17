@@ -17,7 +17,7 @@ export function StatePanel({ content, onPrimaryAction }: StatePanelProps) {
   return (
     <div
       id="state-panel"
-      className="pointer-events-auto max-w-112 place-self-center rounded-3xl border border-teal-400/20 bg-slate-950/80 p-8 text-center shadow-2xl backdrop-blur-md"
+      className="pointer-events-auto row-start-2 max-w-112 place-self-center rounded-3xl border border-teal-400/20 bg-slate-950/80 p-8 text-center shadow-2xl backdrop-blur-md"
     >
       <h1 className="mb-3 text-[clamp(2.2rem,4vw,3.4rem)] tracking-[0.06em] uppercase">
         {content.title}
