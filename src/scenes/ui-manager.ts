@@ -34,7 +34,7 @@ export class UIManager {
     this.scoreLabel = document.createElement('div');
     this.scoreLabel.id = 'score-display';
     this.scoreLabel.className = [
-      'm-5 justify-self-end rounded-full border border-[rgb(73_215_208_/_0.24)] bg-[rgb(7_11_18_/_0.72)] px-4 py-3 text-[0.95rem] uppercase tracking-[0.08em] backdrop-blur-[10px]',
+      'm-5 justify-self-end rounded-full border border-teal-400/25 bg-slate-950/70 px-4 py-3 text-sm uppercase tracking-wider backdrop-blur-md',
       INVISIBLE_CLASS_NAME,
     ].join(' ');
     this.root.append(this.scoreLabel);
@@ -42,7 +42,7 @@ export class UIManager {
     this.panel = document.createElement('div');
     this.panel.id = 'state-panel';
     this.panel.className = [
-      'pointer-events-auto place-self-center max-w-112 rounded-3xl border border-[rgb(73_215_208_/_0.18)] bg-[rgb(8_12_20_/_0.78)] p-8 text-center shadow-[0_20px_60px_rgb(0_0_0_/_0.35)] backdrop-blur-[14px]',
+      'pointer-events-auto place-self-center max-w-112 rounded-3xl border border-teal-400/20 bg-slate-950/80 p-8 text-center shadow-2xl backdrop-blur-md',
       HIDDEN_CLASS_NAME,
     ].join(' ');
 
@@ -51,12 +51,12 @@ export class UIManager {
       'mb-3 text-[clamp(2.2rem,4vw,3.4rem)] uppercase tracking-[0.06em]';
 
     this.message = document.createElement('p');
-    this.message.className = 'mb-6 leading-6 text-[rgb(242_247_251_/_0.8)]';
+    this.message.className = 'mb-6 leading-6 text-slate-50/80';
 
     this.primaryButton = document.createElement('button');
     this.primaryButton.type = 'button';
     this.primaryButton.className =
-      'cursor-pointer rounded-full border border-[rgb(73_215_208_/_0.35)] [background:linear-gradient(135deg,#35c6d7,#2489ea)] px-[1.3rem] py-[0.9rem] text-base font-bold text-[#031119] shadow-[0_10px_24px_rgb(36_137_234_/_0.18)] transition-[transform,box-shadow,filter] duration-150 ease-in-out hover:-translate-y-0.5 hover:brightness-[1.08] hover:shadow-[0_14px_32px_rgb(36_137_234_/_0.28)] active:translate-y-0 active:shadow-[0_8px_18px_rgb(36_137_234_/_0.2)]';
+      'cursor-pointer rounded-full border border-teal-400/40 bg-linear-to-br from-cyan-400 to-blue-500 px-5 py-3.5 text-base font-bold text-slate-950 shadow-lg transition duration-150 ease-in-out hover:-translate-y-0.5 hover:brightness-110 hover:shadow-xl active:translate-y-0 active:shadow-md';
 
     this.primaryButton.addEventListener('click', () => {
       if (this.buttonMode === 'start') {
