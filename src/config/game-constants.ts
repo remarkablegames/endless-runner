@@ -121,3 +121,9 @@ export const OBSTACLE_CLEANUP_Z = -10;
  * Used for bounding box intersection checks.
  */
 export const COLLISION_TOLERANCE = 0.1;
+
+/**
+ * Player Z position in world units.
+ * Camera target point for the player.
+ */
+export const PLAYER_Z = 8;
