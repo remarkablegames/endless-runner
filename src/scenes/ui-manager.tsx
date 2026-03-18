@@ -11,8 +11,9 @@ type OverlayPanelContent = PanelContent & {
  * Lightweight DOM UI for game states and score.
  */
 export class UIManager {
-  private readonly root: HTMLDivElement;
-  private readonly contentRoot: HTMLDivElement;
+  private readonly uiOverlay = document.getElementById(
+    'ui-overlay',
+  ) as HTMLDivElement;
   private readonly soundManager: SoundManager;
   private readonly startRun: () => void;
   private readonly resumeRun: () => void;
@@ -28,15 +29,6 @@ export class UIManager {
     this.soundManager = soundManager;
     this.startRun = startRun;
     this.resumeRun = resumeRun;
-    this.root = document.createElement('div');
-    this.root.id = 'ui-overlay';
-    this.root.className =
-      'pointer-events-none fixed inset-0 z-2 grid grid-rows-[auto_1fr]';
-
-    this.contentRoot = document.createElement('div');
-    this.contentRoot.className = 'contents';
-    this.root.append(this.contentRoot);
-    document.body.append(this.root);
     this.updateOverlay('', false, null);
   }
 
@@ -71,7 +63,7 @@ export class UIManager {
    * Cleanup DOM nodes.
    */
   dispose() {
-    this.root.remove();
+    this.uiOverlay.remove();
   }
 
   private handlePrimaryAction() {
@@ -130,7 +122,7 @@ export class UIManager {
     isScoreVisible: boolean,
     panelContent: PanelContent | null,
   ) {
-    this.contentRoot.replaceChildren(
+    this.uiOverlay.replaceChildren(
       <GameOverlay
         scoreText={scoreText}
         isScoreVisible={isScoreVisible}
