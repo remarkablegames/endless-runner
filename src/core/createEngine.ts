@@ -7,6 +7,7 @@ export function createEngine(canvas: HTMLCanvasElement): Engine {
   const engine = new Engine(canvas, true, {
     preserveDrawingBuffer: false,
     stencil: true,
+    audioEngine: true,
   });
 
   // Handle window resize

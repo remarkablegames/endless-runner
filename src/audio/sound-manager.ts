@@ -1,3 +1,5 @@
+import '@babylonjs/core/Audio/audioSceneComponent';
+
 import { Sound } from '@babylonjs/core/Audio/sound';
 import type { Scene } from '@babylonjs/core/scene';
 
