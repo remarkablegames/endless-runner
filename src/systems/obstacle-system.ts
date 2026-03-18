@@ -14,12 +14,12 @@ export class ObstacleSystem {
   /**
    * Spawn, move, and sync active obstacles.
    */
-  public update(
+  update(
     deltaTime: number,
     speed: number,
     density: number,
     runDuration: number,
-  ): void {
+  ) {
     this.obstacleSpawner.update(deltaTime, density, runDuration);
 
     for (const pooledObstacle of this.obstacleSpawner.getActiveObstacles()) {
@@ -31,14 +31,14 @@ export class ObstacleSystem {
   /**
    * Expose active obstacles for collision checks.
    */
-  public getActiveObstacles(): PooledObstacle[] {
+  getActiveObstacles(): PooledObstacle[] {
     return this.obstacleSpawner.getActiveObstacles();
   }
 
   /**
    * Reset all obstacle state.
    */
-  public reset(): void {
+  reset() {
     this.obstacleSpawner.reset();
   }
 }

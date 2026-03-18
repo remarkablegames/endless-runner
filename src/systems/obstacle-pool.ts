@@ -25,7 +25,7 @@ export class ObstaclePool {
   /**
    * Acquire an active obstacle from the pool.
    */
-  public acquire(
+  acquire(
     lane: LaneIndex,
     type: ObstacleType,
     zPosition: number,
@@ -55,7 +55,7 @@ export class ObstaclePool {
   /**
    * Release an obstacle back to the pool.
    */
-  public release(target: PooledObstacle): void {
+  release(target: PooledObstacle) {
     target.obstacle.deactivate();
     target.visual.sync();
   }
@@ -63,7 +63,7 @@ export class ObstaclePool {
   /**
    * Active obstacles currently in play.
    */
-  public getActive(): PooledObstacle[] {
+  getActive(): PooledObstacle[] {
     return this.pooledObstacles.filter(({ obstacle }) =>
       obstacle.getIsActive(),
     );
@@ -72,7 +72,7 @@ export class ObstaclePool {
   /**
    * Return all obstacles to the pool.
    */
-  public reset(): void {
+  reset() {
     for (const pooledObstacle of this.pooledObstacles) {
       this.release(pooledObstacle);
     }
@@ -81,7 +81,7 @@ export class ObstaclePool {
   /**
    * Dispose Babylon resources.
    */
-  public dispose(): void {
+  dispose() {
     for (const pooledObstacle of this.pooledObstacles) {
       pooledObstacle.visual.dispose();
     }

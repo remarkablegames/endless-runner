@@ -9,7 +9,7 @@ export class CollisionDetector {
   /**
    * Returns true when an obstacle should end the run.
    */
-  public hasCollision(player: Player, obstacles: PooledObstacle[]): boolean {
+  hasCollision(player: Player, obstacles: PooledObstacle[]): boolean {
     for (const pooledObstacle of obstacles) {
       const obstacle = pooledObstacle.obstacle;
 

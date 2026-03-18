@@ -37,28 +37,28 @@ export class ObstaclePattern {
   /**
    * Get the pattern ID.
    */
-  public getId(): string {
+  getId(): string {
     return this.id;
   }
 
   /**
    * Get all spawn points.
    */
-  public getSpawns(): ObstacleSpawn[] {
+  getSpawns(): ObstacleSpawn[] {
     return [...this.spawns];
   }
 
   /**
    * Get minimum run duration before this pattern can appear.
    */
-  public getMinRunDuration(): number {
+  getMinRunDuration(): number {
     return this.minRunDuration;
   }
 
   /**
    * Get difficulty rating (0-1).
    */
-  public getDifficulty(): number {
+  getDifficulty(): number {
     return this.difficulty;
   }
 
@@ -66,7 +66,7 @@ export class ObstaclePattern {
    * Check if this pattern is avoidable.
    * A pattern is avoidable if not all 3 lanes are blocked at the same Z.
    */
-  public isAvoidable(): boolean {
+  isAvoidable(): boolean {
     const lanesByZ = new Map<number, Set<number>>();
 
     for (const spawn of this.spawns) {

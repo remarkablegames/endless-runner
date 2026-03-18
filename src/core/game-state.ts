@@ -20,21 +20,21 @@ export class GameState {
   /**
    * Get the current game state.
    */
-  public getState(): GameStateEnum {
+  getState(): GameStateEnum {
     return this.state;
   }
 
   /**
    * Get the current score (distance traveled).
    */
-  public getScore(): number {
+  getScore(): number {
     return this.score;
   }
 
   /**
    * Check if the game is currently running.
    */
-  public isRunning(): boolean {
+  isRunning(): boolean {
     return this.state === GameStateEnum.Running;
   }
 
@@ -42,7 +42,7 @@ export class GameState {
    * Get the elapsed run time in seconds.
    * Returns 0 if not in Running state.
    */
-  public getElapsedTime(): number {
+  getElapsedTime(): number {
     if (this.state !== GameStateEnum.Running) {
       return 0;
     }
@@ -57,7 +57,7 @@ export class GameState {
    * @param deltaTime - Time since last update in seconds
    * @param currentSpeed - Current forward speed
    */
-  public updateScore(deltaTime: number, currentSpeed: number): void {
+  updateScore(deltaTime: number, currentSpeed: number) {
     if (this.state !== GameStateEnum.Running) {
       return;
     }
@@ -68,7 +68,7 @@ export class GameState {
    * Transition from Start to Running state.
    * Initializes score and start time.
    */
-  public startGame(): void {
+  startGame() {
     if (this.state !== GameStateEnum.Start) {
       return;
     }
@@ -82,7 +82,7 @@ export class GameState {
    * Transition from Running to Paused state.
    * Records the pause time.
    */
-  public pauseGame(): void {
+  pauseGame() {
     if (this.state !== GameStateEnum.Running) {
       return;
     }
@@ -94,7 +94,7 @@ export class GameState {
    * Transition from Paused to Running state.
    * Resumes from the exact point where paused.
    */
-  public resumeGame(): void {
+  resumeGame() {
     if (this.state !== GameStateEnum.Paused) {
       return;
     }
@@ -111,7 +111,7 @@ export class GameState {
    * Transition from Running to GameOver state.
    * Freezes game state on collision.
    */
-  public triggerGameOver(): void {
+  triggerGameOver() {
     if (this.state !== GameStateEnum.Running) {
       return;
     }
@@ -123,7 +123,7 @@ export class GameState {
    * Transition from GameOver to Running state.
    * Resets all state for a new run.
    */
-  public restartGame(): void {
+  restartGame() {
     if (this.state !== GameStateEnum.GameOver) {
       return;
     }
@@ -137,7 +137,7 @@ export class GameState {
    * Reset the game state to Start.
    * Used for returning to main menu.
    */
-  public resetToStart(): void {
+  resetToStart() {
     this.state = GameStateEnum.Start;
     this.score = 0;
     this.startTime = 0;

@@ -17,7 +17,7 @@ export class InputSystem {
   /**
    * Apply a single directional input to the player.
    */
-  public handleDirection(direction: InputDirection): void {
+  handleDirection(direction: InputDirection) {
     switch (direction) {
       case 'LEFT': {
         const lane = Math.max(0, this.player.getCurrentLane() - 1) as 0 | 1 | 2;

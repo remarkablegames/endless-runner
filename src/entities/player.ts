@@ -23,43 +23,43 @@ export class Player {
   private laneTransitionProgress = 0;
   private currentAction: PlayerAction = 'NONE';
 
-  public getCurrentLane(): LaneIndex {
+  getCurrentLane(): LaneIndex {
     return this.currentLane;
   }
 
-  public getTargetLane(): LaneIndex {
+  getTargetLane(): LaneIndex {
     return this.targetLane;
   }
 
-  public isSwitchingLanes(): boolean {
+  isSwitchingLanes(): boolean {
     return this.currentLane !== this.targetLane;
   }
 
-  public getIsJumping(): boolean {
+  getIsJumping(): boolean {
     return this.isJumping;
   }
 
-  public getIsDucking(): boolean {
+  getIsDucking(): boolean {
     return this.isDucking;
   }
 
-  public getJumpProgress(): number {
+  getJumpProgress(): number {
     return this.jumpProgress;
   }
 
-  public getDuckProgress(): number {
+  getDuckProgress(): number {
     return this.duckProgress;
   }
 
-  public getVerticalPosition(): number {
+  getVerticalPosition(): number {
     return this.verticalPosition;
   }
 
-  public getCurrentAction(): PlayerAction {
+  getCurrentAction(): PlayerAction {
     return this.currentAction;
   }
 
-  public switchLane(lane: LaneIndex): boolean {
+  switchLane(lane: LaneIndex): boolean {
     if (this.isSwitchingLanes() || this.isJumping || this.isDucking) {
       return false;
     }
@@ -74,7 +74,7 @@ export class Player {
     return true;
   }
 
-  public startJump(): boolean {
+  startJump(): boolean {
     if (this.isJumping || this.isDucking || this.isSwitchingLanes()) {
       return false;
     }
@@ -86,7 +86,7 @@ export class Player {
     return true;
   }
 
-  public startDuck(): boolean {
+  startDuck(): boolean {
     if (this.isJumping) {
       return false;
     }
@@ -109,7 +109,7 @@ export class Player {
     return true;
   }
 
-  public update(deltaTime: number): void {
+  update(deltaTime: number) {
     if (this.isSwitchingLanes()) {
       this.laneTransitionProgress += deltaTime / LANE_TRANSITION_DURATION;
       if (this.laneTransitionProgress >= 1) {
@@ -152,7 +152,7 @@ export class Player {
     }
   }
 
-  public getInterpolatedX(lanePositions: Record<LaneIndex, number>): number {
+  getInterpolatedX(lanePositions: Record<LaneIndex, number>): number {
     if (!this.isSwitchingLanes()) {
       return lanePositions[this.currentLane];
     }
@@ -162,7 +162,7 @@ export class Player {
     return startX + (endX - startX) * this.laneTransitionProgress;
   }
 
-  public reset(): void {
+  reset() {
     this.currentLane = 1;
     this.targetLane = 1;
     this.isJumping = false;

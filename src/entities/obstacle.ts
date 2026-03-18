@@ -28,56 +28,56 @@ export class Obstacle {
   /**
    * Get the obstacle ID.
    */
-  public getId(): string {
+  getId(): string {
     return this.id;
   }
 
   /**
    * Get the current lane.
    */
-  public getLane(): LaneIndex {
+  getLane(): LaneIndex {
     return this.lane;
   }
 
   /**
    * Get the obstacle type.
    */
-  public getType(): ObstacleType {
+  getType(): ObstacleType {
     return this.type;
   }
 
   /**
    * Get the Z position.
    */
-  public getZPosition(): number {
+  getZPosition(): number {
     return this.zPosition;
   }
 
   /**
    * Check if the obstacle is active.
    */
-  public getIsActive(): boolean {
+  getIsActive(): boolean {
     return this.isActive;
   }
 
   /**
    * Check if this obstacle requires a jump to avoid.
    */
-  public requiresJump(): boolean {
+  requiresJump(): boolean {
     return this.type === 'GROUND';
   }
 
   /**
    * Check if this obstacle requires a duck to avoid.
    */
-  public requiresDuck(): boolean {
+  requiresDuck(): boolean {
     return this.type === 'AIRBORNE';
   }
 
   /**
    * Check if this obstacle requires a lane change to avoid.
    */
-  public requiresLaneChange(): boolean {
+  requiresLaneChange(): boolean {
     return this.type === 'FULL_LANE';
   }
 
@@ -85,25 +85,21 @@ export class Obstacle {
    * Update the Z position (moving toward player).
    * @param deltaZ - Distance to move
    */
-  public moveForward(deltaZ: number): void {
+  moveForward(deltaZ: number) {
     this.zPosition -= deltaZ;
   }
 
   /**
    * Deactivate the obstacle.
    */
-  public deactivate(): void {
+  deactivate() {
     this.isActive = false;
   }
 
   /**
    * Reactivate the obstacle with new parameters.
    */
-  public reactivate(
-    lane: LaneIndex,
-    type: ObstacleType,
-    zPosition: number,
-  ): void {
+  reactivate(lane: LaneIndex, type: ObstacleType, zPosition: number) {
     this.lane = lane;
     this.type = type;
     this.zPosition = zPosition;

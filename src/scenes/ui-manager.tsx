@@ -43,7 +43,7 @@ export class UIManager {
   /**
    * Update score and visible panel based on game state.
    */
-  public render(state: GameStateEnum, score: number): void {
+  render(state: GameStateEnum, score: number) {
     const roundedScore = Math.floor(score);
     if (
       state === this.lastRenderedState &&
@@ -70,11 +70,11 @@ export class UIManager {
   /**
    * Cleanup DOM nodes.
    */
-  public dispose(): void {
+  dispose() {
     this.root.remove();
   }
 
-  private handlePrimaryAction(): void {
+  private handlePrimaryAction() {
     this.soundManager.click.play();
 
     if (this.buttonMode === 'start') {
@@ -129,7 +129,7 @@ export class UIManager {
     scoreText: string,
     isScoreVisible: boolean,
     panelContent: PanelContent | null,
-  ): void {
+  ) {
     this.contentRoot.replaceChildren(
       <GameOverlay
         scoreText={scoreText}

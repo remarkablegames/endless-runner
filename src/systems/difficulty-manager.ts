@@ -17,7 +17,7 @@ export class DifficultyManager {
    * Update the difficulty manager based on elapsed time.
    * @param deltaTime - Time since last update in seconds
    */
-  public update(deltaTime: number): void {
+  update(deltaTime: number) {
     this.runDuration += deltaTime;
   }
 
@@ -25,7 +25,7 @@ export class DifficultyManager {
    * Get the current speed based on run duration.
    * Linear interpolation from baseSpeed to maxSpeed.
    */
-  public getCurrentSpeed(): number {
+  getCurrentSpeed(): number {
     const progress = Math.min(
       1,
       this.runDuration / this.config.densityRampDuration,
@@ -40,7 +40,7 @@ export class DifficultyManager {
    * Get the current obstacle density based on run duration.
    * Linear interpolation from baseDensity to maxDensity.
    */
-  public getCurrentDensity(): number {
+  getCurrentDensity(): number {
     const progress = Math.min(
       1,
       this.runDuration / this.config.densityRampDuration,
@@ -54,7 +54,7 @@ export class DifficultyManager {
   /**
    * Get the run duration in seconds.
    */
-  public getRunDuration(): number {
+  getRunDuration(): number {
     return this.runDuration;
   }
 
@@ -62,7 +62,7 @@ export class DifficultyManager {
    * Check if it's time for a speed increase.
    * Returns true every speedIncreaseInterval seconds.
    */
-  public shouldIncreaseSpeed(): boolean {
+  shouldIncreaseSpeed(): boolean {
     const intervals = Math.floor(
       this.runDuration / this.config.speedIncreaseInterval,
     );
@@ -76,7 +76,7 @@ export class DifficultyManager {
   /**
    * Reset the difficulty manager for a new run.
    */
-  public reset(): void {
+  reset() {
     this.runDuration = 0;
     this.lastSpeedIncreaseTime = 0;
   }
@@ -84,7 +84,7 @@ export class DifficultyManager {
   /**
    * Get the difficulty config.
    */
-  public getConfig(): DifficultyConfig {
+  getConfig(): DifficultyConfig {
     return this.config;
   }
 }

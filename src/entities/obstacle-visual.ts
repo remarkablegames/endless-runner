@@ -37,7 +37,7 @@ export class ObstacleVisual {
   /**
    * Sync mesh transform and styling from obstacle state.
    */
-  public sync(): void {
+  sync() {
     const obstacleType = this.obstacle.getType();
 
     this.mesh.position.x = LANE_X_POSITIONS[this.obstacle.getLane()];
@@ -66,14 +66,14 @@ export class ObstacleVisual {
   /**
    * Expose the render mesh for collisions.
    */
-  public getMesh(): Mesh {
+  getMesh(): Mesh {
     return this.mesh;
   }
 
   /**
    * Dispose resources.
    */
-  public dispose(): void {
+  dispose() {
     this.material.dispose();
     this.mesh.dispose();
   }

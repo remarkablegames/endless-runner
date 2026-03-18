@@ -17,7 +17,7 @@ export class ObstacleSpawner {
   /**
    * Update obstacle spawning and cleanup.
    */
-  public update(deltaTime: number, density: number, runDuration: number): void {
+  update(deltaTime: number, density: number, runDuration: number) {
     this.spawnCooldown -= deltaTime;
 
     if (this.spawnCooldown <= 0) {
@@ -35,7 +35,7 @@ export class ObstacleSpawner {
   /**
    * Reset spawning for a fresh run.
    */
-  public reset(): void {
+  reset() {
     this.spawnCooldown = 0;
     this.obstaclePool.reset();
   }
@@ -43,11 +43,11 @@ export class ObstacleSpawner {
   /**
    * Current active obstacles.
    */
-  public getActiveObstacles(): PooledObstacle[] {
+  getActiveObstacles(): PooledObstacle[] {
     return this.obstaclePool.getActive();
   }
 
-  private spawnPattern(runDuration: number): void {
+  private spawnPattern(runDuration: number) {
     const eligiblePatterns = DEFAULT_PATTERNS.filter(
       (pattern) =>
         pattern.getMinRunDuration() <= runDuration && pattern.isAvoidable(),

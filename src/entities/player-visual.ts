@@ -40,7 +40,7 @@ export class PlayerVisual {
   /**
    * Update visual state to match the player entity.
    */
-  public update(): void {
+  update() {
     const laneX = this.player.getInterpolatedX(LANE_X_POSITIONS);
     const verticalPosition = this.player.getVerticalPosition();
     const duckScale = this.player.getIsDucking() ? 0.55 : 1;
@@ -54,21 +54,21 @@ export class PlayerVisual {
   /**
    * Root node for positioning and camera framing.
    */
-  public getRoot(): TransformNode {
+  getRoot(): TransformNode {
     return this.root;
   }
 
   /**
    * Collision mesh.
    */
-  public getMesh(): Mesh {
+  getMesh(): Mesh {
     return this.body;
   }
 
   /**
    * Reset to the default position after restart.
    */
-  public syncImmediate(): void {
+  syncImmediate() {
     this.root.position.x = LANE_X_POSITIONS[this.player.getCurrentLane()];
     this.root.position.y = 0;
     this.root.position.z = 0;
@@ -79,7 +79,7 @@ export class PlayerVisual {
   /**
    * Dispose Babylon resources.
    */
-  public dispose(): void {
+  dispose() {
     this.material.dispose();
     this.body.dispose();
     this.root.dispose();

@@ -27,7 +27,7 @@ export class InputHandler {
   /**
    * Begin listening for keyboard input.
    */
-  public initialize(): void {
+  initialize() {
     window.addEventListener('keydown', this.handleKeyDown);
     window.addEventListener('keyup', this.handleKeyUp);
   }
@@ -35,7 +35,7 @@ export class InputHandler {
   /**
    * Stop listening for keyboard input.
    */
-  public dispose(): void {
+  dispose() {
     window.removeEventListener('keydown', this.handleKeyDown);
     window.removeEventListener('keyup', this.handleKeyUp);
   }
@@ -43,7 +43,7 @@ export class InputHandler {
   /**
    * Return the next unconsumed directional input.
    */
-  public pollInput(): InputDirection | null {
+  pollInput(): InputDirection | null {
     if (this.queuedInput === null || this.consumedQueuedInput) {
       return null;
     }
@@ -55,7 +55,7 @@ export class InputHandler {
   /**
    * Consume a pause toggle request.
    */
-  public consumePauseRequested(): boolean {
+  consumePauseRequested(): boolean {
     const requested = this.pauseRequested;
     this.pauseRequested = false;
     return requested;
@@ -64,7 +64,7 @@ export class InputHandler {
   /**
    * Consume a restart request.
    */
-  public consumeRestartRequested(): boolean {
+  consumeRestartRequested(): boolean {
     const requested = this.restartRequested;
     this.restartRequested = false;
     return requested;
@@ -73,7 +73,7 @@ export class InputHandler {
   /**
    * Consume a start request.
    */
-  public consumeStartRequested(): boolean {
+  consumeStartRequested(): boolean {
     const requested = this.startRequested;
     this.startRequested = false;
     return requested;
@@ -82,7 +82,7 @@ export class InputHandler {
   /**
    * Clear queued and pressed input state.
    */
-  public clearInputs(): void {
+  clearInputs() {
     this.pressedKeys.clear();
     this.queuedInput = null;
     this.consumedQueuedInput = false;
@@ -93,7 +93,7 @@ export class InputHandler {
   /**
    * Handle key presses.
    */
-  private readonly handleKeyDown = (event: KeyboardEvent): void => {
+  private readonly handleKeyDown = (event: KeyboardEvent) => {
     if (event.repeat) {
       return;
     }
@@ -127,7 +127,7 @@ export class InputHandler {
   /**
    * Release directional input and unlock after a short delay.
    */
-  private readonly handleKeyUp = (event: KeyboardEvent): void => {
+  private readonly handleKeyUp = (event: KeyboardEvent) => {
     this.pressedKeys.delete(event.code);
 
     if (
