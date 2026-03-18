@@ -22,7 +22,7 @@ You're an expert engineer for this Babylon.js game.
   - Node.js 24
 - **File Structure:**
   - `src/` – game code
-  - `public/` – game assets
+  - `public/` – assets (sounds, graphics)
 
 ## Tools you can use
 
@@ -38,8 +38,9 @@ Follow these rules for all code you write:
 **Naming conventions:**
 
 - Functions: camelCase (`takeDamage`, `isAlive`)
-- Classes: PascalCase (`GameManager`, `Enemy`)
-- Constants: UPPER_SNAKE_CASE (`PlayerConstants.MAX_HEALTH`, `Constants.ALPHA_DISABLE`)
+- Classes: PascalCase (`InputSystem`, `UIManager`)
+- Constants: UPPER_SNAKE_CASE (`PlayerConstants.MAX_HEALTH`, `Game.ALPHA_DISABLE`)
+- Files: kebab-case (`input-system.ts`, `ui-manager.ts`)
 
 **Babylon.js imports:**
 
@@ -55,7 +56,15 @@ import { Vector3 } from '@babylonjs/core/Maths/math.vector';
 import { Engine, Scene, Vector3 } from '@babylonjs/core';
 ```
 
-Boundaries:
+Import `audioSceneComponent` when using `Sound`:
+
+```ts
+import '@babylonjs/core/Audio/audioSceneComponent';
+
+import { Sound } from '@babylonjs/core/Audio/sound';
+```
+
+**Boundaries:**
 
 - ✅ **Always:** Write to `src/`, run lint and type check before commits, follow naming conventions
 - ⚠️ **Ask first:** Adding dependencies, modifying CI/CD config
