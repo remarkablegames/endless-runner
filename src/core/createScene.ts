@@ -1,3 +1,5 @@
+import '@babylonjs/core/Audio/audioSceneComponent';
+
 import type { Engine } from '@babylonjs/core/Engines/engine';
 import { DirectionalLight } from '@babylonjs/core/Lights/directionalLight';
 import { HemisphericLight } from '@babylonjs/core/Lights/hemisphericLight';

@@ -1,11 +1,6 @@
+import { SoundManager } from '../audio';
 import { GameStateEnum } from '../types/game-state';
 import { GameOverlay, type PanelContent } from '../ui';
-
-interface UIManagerCallbacks {
-  onStart: () => void;
-  onResume: () => void;
-  onRestart: () => void;
-}
 
 type ButtonMode = 'start' | 'resume' | 'restart';
 type OverlayPanelContent = PanelContent & {
@@ -18,13 +13,21 @@ type OverlayPanelContent = PanelContent & {
 export class UIManager {
   private readonly root: HTMLDivElement;
   private readonly contentRoot: HTMLDivElement;
-  private readonly callbacks: UIManagerCallbacks;
+  private readonly soundManager: SoundManager;
+  private readonly startRun: () => void;
+  private readonly resumeRun: () => void;
   private buttonMode: ButtonMode = 'start';
   private lastRenderedState: GameStateEnum | null = null;
   private lastRenderedScore = Number.NaN;
 
-  constructor(callbacks: UIManagerCallbacks) {
-    this.callbacks = callbacks;
+  constructor(
+    soundManager: SoundManager,
+    startRun: () => void,
+    resumeRun: () => void,
+  ) {
+    this.soundManager = soundManager;
+    this.startRun = startRun;
+    this.resumeRun = resumeRun;
     this.root = document.createElement('div');
     this.root.id = 'ui-overlay';
     this.root.className =
@@ -72,17 +75,19 @@ export class UIManager {
   }
 
   private handlePrimaryAction(): void {
+    this.soundManager.click.play();
+
     if (this.buttonMode === 'start') {
-      this.callbacks.onStart();
+      this.startRun();
       return;
     }
 
     if (this.buttonMode === 'resume') {
-      this.callbacks.onResume();
+      this.resumeRun();
       return;
     }
 
-    this.callbacks.onRestart();
+    this.startRun();
   }
 
   private getPanelContent(
