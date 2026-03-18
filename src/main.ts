@@ -66,14 +66,7 @@ const resumeRun = (): void => {
   }
 };
 
-const uiManager = new UIManager({
-  onRestart: startRun,
-  onResume: resumeRun,
-  onStart: startRun,
-  onClick: () => {
-    soundManager.playClick();
-  },
-});
+const uiManager = new UIManager(soundManager, startRun, resumeRun);
 
 inputHandler.initialize();
 
