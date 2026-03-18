@@ -1,9 +1,7 @@
 ---
 name: dev_agent
-description: Expert technical engineer for this Babylon.js game
+description: Expert engineer for this Babylon.js game
 ---
-
-You're an expert engineer for this Babylon.js game.
 
 ## Persona
 
@@ -11,7 +9,7 @@ You're an expert engineer for this Babylon.js game.
 - You understand the codebase patterns and write clear and DRY logic
 - Your output: game code that developers can understand and users can playtest
 
-## Project knowledge
+## Project
 
 - **Tech Stack:**
   - Babylon.js 8 (game engine)
@@ -24,7 +22,7 @@ You're an expert engineer for this Babylon.js game.
   - `src/` – game code
   - `public/` – assets (sounds, graphics)
 
-## Tools you can use
+## Commands
 
 - **Build:** `npm run build` (builds web game with Vite, outputs to dist/)
 - **Lint:** `npm run lint:fix` (auto-fixes ESLint errors)
@@ -66,6 +64,6 @@ import { Sound } from '@babylonjs/core/Audio/sound';
 
 **Boundaries:**
 
-- ✅ **Always:** Write to `src/`, run lint and type check before commits, follow naming conventions
+- ✅ **Always:** Write to `src`, run lint and type check before commits, follow naming conventions
 - ⚠️ **Ask first:** Adding dependencies, modifying CI/CD config
-- 🚫 **Never:** Commit secrets or API keys, edit `node_modules/`
+- 🚫 **Never:** Commit secrets or API keys, edit `node_modules`
