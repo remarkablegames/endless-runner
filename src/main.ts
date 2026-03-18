@@ -1,3 +1,4 @@
+import { SoundManager } from './audio';
 import { DIFFICULTY_CONFIG } from './config/game-constants';
 import { createEngine, createScene } from './core';
 import { GameState } from './core/game-state';
@@ -29,7 +30,8 @@ const gameState = new GameState();
 const difficultyManager = new DifficultyManager(DIFFICULTY_CONFIG);
 const inputHandler = new InputHandler();
 const player = new Player();
-const inputSystem = new InputSystem(player);
+const soundManager = new SoundManager(scene);
+const inputSystem = new InputSystem(player, soundManager);
 const playerVisual = new PlayerVisual(player, scene);
 const obstaclePool = new ObstaclePool(scene);
 const obstacleSpawner = new ObstacleSpawner(obstaclePool);
@@ -128,6 +130,7 @@ renderSystem.startRenderLoop((deltaTime) => {
         obstacleSystem.getActiveObstacles(),
       )
     ) {
+      soundManager.playCollide();
       gameState.triggerGameOver();
       inputHandler.clearInputs();
     }
@@ -150,4 +153,5 @@ window.addEventListener('beforeunload', () => {
   uiManager.dispose();
   playerVisual.dispose();
   obstaclePool.dispose();
+  soundManager.dispose();
 });
