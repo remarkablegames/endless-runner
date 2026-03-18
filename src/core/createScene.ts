@@ -24,7 +24,7 @@ export function createScene(engine: Engine): Scene {
   scene.clearColor = new Color4(0.04, 0.05, 0.08, 1);
 
   const camera = createCamera(scene);
-  camera.setTarget(new Vector3(0, 1, 6));
+  camera.setTarget(new Vector3(0, 1, 8));
   camera.radius = 18;
   camera.alpha = -Math.PI / 2;
   camera.beta = 1.05;
