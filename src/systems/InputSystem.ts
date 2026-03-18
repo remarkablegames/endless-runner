@@ -22,7 +22,7 @@ export class InputSystem {
       case 'LEFT': {
         const lane = Math.max(0, this.player.getCurrentLane() - 1) as 0 | 1 | 2;
         if (this.player.switchLane(lane)) {
-          this.soundManager.playMove();
+          this.soundManager.move.play();
         }
         break;
       }
@@ -30,21 +30,21 @@ export class InputSystem {
       case 'RIGHT': {
         const lane = Math.min(2, this.player.getCurrentLane() + 1) as 0 | 1 | 2;
         if (this.player.switchLane(lane)) {
-          this.soundManager.playMove();
+          this.soundManager.move.play();
         }
         break;
       }
 
       case 'UP': {
         if (this.player.startJump()) {
-          this.soundManager.playJump();
+          this.soundManager.jump.play();
         }
         break;
       }
 
       case 'DOWN': {
         if (this.player.startDuck()) {
-          this.soundManager.playDuck();
+          this.soundManager.duck.play();
         }
         break;
       }

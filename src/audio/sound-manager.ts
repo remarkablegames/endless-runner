@@ -8,59 +8,25 @@ import type { Scene } from '@babylonjs/core/scene';
  * Handles loading and playing of game sound effects.
  */
 export class SoundManager {
-  private jumpSound: Sound;
-  private duckSound: Sound;
-  private moveSound: Sound;
-  private collideSound: Sound;
-  private clickSound: Sound;
+  jump: Sound;
+  duck: Sound;
+  move: Sound;
+  collide: Sound;
+  click: Sound;
 
   constructor(scene: Scene) {
-    this.jumpSound = new Sound('jump', 'sounds/jump.mp3', scene, null, {
-      loop: false,
-    });
-    this.duckSound = new Sound('duck', 'sounds/duck.mp3', scene, null, {
-      loop: false,
-    });
-    this.moveSound = new Sound('move', 'sounds/move.mp3', scene, null, {
-      loop: false,
-    });
-    this.collideSound = new Sound(
-      'collide',
-      'sounds/collide.mp3',
-      scene,
-      null,
-      { loop: false },
-    );
-    this.clickSound = new Sound('click', 'sounds/click.mp3', scene, null, {
-      loop: false,
-    });
+    this.jump = new Sound('jump', 'sounds/jump.mp3', scene);
+    this.duck = new Sound('duck', 'sounds/duck.mp3', scene);
+    this.move = new Sound('move', 'sounds/move.mp3', scene);
+    this.collide = new Sound('collide', 'sounds/collide.mp3', scene);
+    this.click = new Sound('click', 'sounds/click.wav', scene);
   }
 
-  public playJump(): void {
-    this.jumpSound.play();
-  }
-
-  public playDuck(): void {
-    this.duckSound.play();
-  }
-
-  public playMove(): void {
-    this.moveSound.play();
-  }
-
-  public playCollide(): void {
-    this.collideSound.play();
-  }
-
-  public playClick(): void {
-    this.clickSound.play();
-  }
-
-  public dispose(): void {
-    this.jumpSound.dispose();
-    this.duckSound.dispose();
-    this.moveSound.dispose();
-    this.collideSound.dispose();
-    this.clickSound.dispose();
+  dispose() {
+    this.jump.dispose();
+    this.duck.dispose();
+    this.move.dispose();
+    this.collide.dispose();
+    this.click.dispose();
   }
 }

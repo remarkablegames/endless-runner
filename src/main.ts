@@ -126,7 +126,7 @@ renderSystem.startRenderLoop((deltaTime) => {
         obstacleSystem.getActiveObstacles(),
       )
     ) {
-      soundManager.playCollide();
+      soundManager.collide.play();
       gameState.triggerGameOver();
       inputHandler.clearInputs();
     }

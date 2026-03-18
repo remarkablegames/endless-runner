@@ -75,7 +75,7 @@ export class UIManager {
   }
 
   private handlePrimaryAction(): void {
-    this.soundManager.playClick();
+    this.soundManager.click.play();
 
     if (this.buttonMode === 'start') {
       this.startRun();
