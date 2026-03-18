@@ -2,7 +2,6 @@ import { createEngine, createScene } from './core';
 import { Game } from './game';
 
 const canvas = document.querySelector<HTMLCanvasElement>('#game');
-const spinner = document.querySelector<HTMLDivElement>('#spinner');
 
 if (!canvas) {
   throw new Error('Game canvas not found');
@@ -10,7 +9,7 @@ if (!canvas) {
 
 const engine = createEngine(canvas);
 const scene = createScene(engine);
-const game = new Game(engine, scene, spinner);
+const game = new Game(engine, scene);
 
 game.start();
 

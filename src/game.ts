@@ -22,31 +22,26 @@ import { GameStateEnum } from './types/game-state';
  * Game - Orchestrates all game systems and manages the update loop.
  */
 export class Game {
-  private readonly gameState: GameState;
-  private readonly difficultyManager: DifficultyManager;
-  private readonly inputHandler: InputHandler;
-  private readonly player: Player;
+  private readonly gameState = new GameState();
+  private readonly difficultyManager = new DifficultyManager(DIFFICULTY_CONFIG);
+  private readonly inputHandler = new InputHandler();
+  private readonly player = new Player();
+  private readonly collisionDetector = new CollisionDetector();
   private readonly playerVisual: PlayerVisual;
   private readonly obstaclePool: ObstaclePool;
   private readonly obstacleSystem: ObstacleSystem;
-  private readonly collisionDetector: CollisionDetector;
   private readonly soundManager: SoundManager;
   private readonly uiManager: UIManager;
   private readonly renderSystem: RenderSystem;
   private readonly inputSystem: InputSystem;
 
-  constructor(engine: Engine, scene: Scene, spinner: HTMLElement | null) {
-    this.gameState = new GameState();
-    this.difficultyManager = new DifficultyManager(DIFFICULTY_CONFIG);
-    this.inputHandler = new InputHandler();
-    this.player = new Player();
+  constructor(engine: Engine, scene: Scene) {
     this.soundManager = new SoundManager(scene);
     this.inputSystem = new InputSystem(this.player, this.soundManager);
     this.playerVisual = new PlayerVisual(this.player, scene);
     this.obstaclePool = new ObstaclePool(scene);
     const obstacleSpawner = new ObstacleSpawner(this.obstaclePool);
     this.obstacleSystem = new ObstacleSystem(obstacleSpawner);
-    this.collisionDetector = new CollisionDetector();
     this.renderSystem = new RenderSystem(engine, scene);
 
     this.uiManager = new UIManager(
@@ -62,7 +57,7 @@ export class Game {
     this.inputHandler.initialize();
 
     scene.onReadyObservable.addOnce(() => {
-      spinner?.remove();
+      document.getElementById('spinner')?.remove();
       this.uiManager.render(
         this.gameState.getState(),
         this.gameState.getScore(),
@@ -70,13 +65,13 @@ export class Game {
     });
   }
 
-  public start(): void {
+  start() {
     this.renderSystem.startRenderLoop((deltaTime) => {
       this.update(deltaTime);
     });
   }
 
-  private update(deltaTime: number): void {
+  private update(deltaTime: number) {
     this.handlePauseInput();
     this.handleStartRestartInput();
 
@@ -89,7 +84,7 @@ export class Game {
     this.uiManager.render(this.gameState.getState(), this.gameState.getScore());
   }
 
-  private handlePauseInput(): void {
+  private handlePauseInput() {
     if (this.inputHandler.consumePauseRequested()) {
       if (this.gameState.getState() === GameStateEnum.Running) {
         this.gameState.pauseGame();
@@ -100,7 +95,7 @@ export class Game {
     }
   }
 
-  private handleStartRestartInput(): void {
+  private handleStartRestartInput() {
     if (
       this.gameState.getState() === GameStateEnum.Start &&
       this.inputHandler.consumeStartRequested()
@@ -116,7 +111,7 @@ export class Game {
     }
   }
 
-  private updateRunning(deltaTime: number): void {
+  private updateRunning(deltaTime: number) {
     const inputDirection = this.inputHandler.pollInput();
     if (inputDirection !== null) {
       this.inputSystem.handleDirection(inputDirection);
@@ -149,7 +144,7 @@ export class Game {
     }
   }
 
-  private resetRun(): void {
+  private resetRun() {
     this.player.reset();
     this.playerVisual.syncImmediate();
     this.difficultyManager.reset();
@@ -157,7 +152,7 @@ export class Game {
     this.inputHandler.clearInputs();
   }
 
-  private startRun(): void {
+  private startRun() {
     if (this.gameState.getState() === GameStateEnum.Start) {
       this.resetRun();
       this.gameState.startGame();
@@ -170,21 +165,21 @@ export class Game {
     }
   }
 
-  private resumeRun(): void {
+  private resumeRun() {
     if (this.gameState.getState() === GameStateEnum.Paused) {
       this.gameState.resumeGame();
       this.inputHandler.clearInputs();
     }
   }
 
-  public pauseOnBlur(): void {
+  pauseOnBlur() {
     if (this.gameState.getState() === GameStateEnum.Running) {
       this.gameState.pauseGame();
       this.inputHandler.clearInputs();
     }
   }
 
-  public dispose(): void {
+  dispose() {
     this.inputHandler.dispose();
     this.uiManager.dispose();
     this.playerVisual.dispose();
