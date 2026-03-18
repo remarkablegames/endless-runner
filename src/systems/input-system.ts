@@ -1,5 +1,5 @@
 import { SoundManager } from '../audio';
-import { Player } from '../entities/Player';
+import { Player } from '../entities/player';
 import type { InputDirection } from '../types/input';
 
 /**

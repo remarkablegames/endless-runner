@@ -6,7 +6,7 @@ import { TransformNode } from '@babylonjs/core/Meshes/transformNode';
 import type { Scene } from '@babylonjs/core/scene';
 
 import { LANE_X_POSITIONS } from '../config/game-constants';
-import { Player } from './Player';
+import { Player } from './player';
 
 /**
  * Babylon.js representation of the player.

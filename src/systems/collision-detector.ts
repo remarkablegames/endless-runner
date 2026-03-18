@@ -1,5 +1,5 @@
 import { COLLISION_TOLERANCE } from '../config/game-constants';
-import { Player } from '../entities/Player';
+import { Player } from '../entities/player';
 import type { PooledObstacle } from './obstacle-pool';
 
 /**
