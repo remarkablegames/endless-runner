@@ -31,7 +31,7 @@ export class SoundManager {
       null,
       { loop: false },
     );
-    this.clickSound = new Sound('click', 'sounds/click.wav', scene, null, {
+    this.clickSound = new Sound('click', 'sounds/click.mp3', scene, null, {
       loop: false,
     });
   }
