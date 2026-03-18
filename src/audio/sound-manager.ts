@@ -12,6 +12,7 @@ export class SoundManager {
   private duckSound: Sound;
   private moveSound: Sound;
   private collideSound: Sound;
+  private clickSound: Sound;
 
   constructor(scene: Scene) {
     this.jumpSound = new Sound('jump', 'sounds/jump.mp3', scene, null, {
@@ -30,6 +31,9 @@ export class SoundManager {
       null,
       { loop: false },
     );
+    this.clickSound = new Sound('click', 'sounds/click.wav', scene, null, {
+      loop: false,
+    });
   }
 
   public playJump(): void {
@@ -48,10 +52,15 @@ export class SoundManager {
     this.collideSound.play();
   }
 
+  public playClick(): void {
+    this.clickSound.play();
+  }
+
   public dispose(): void {
     this.jumpSound.dispose();
     this.duckSound.dispose();
     this.moveSound.dispose();
     this.collideSound.dispose();
+    this.clickSound.dispose();
   }
 }

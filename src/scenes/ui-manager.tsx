@@ -5,6 +5,7 @@ interface UIManagerCallbacks {
   onStart: () => void;
   onResume: () => void;
   onRestart: () => void;
+  onClick?: () => void;
 }
 
 type ButtonMode = 'start' | 'resume' | 'restart';
@@ -72,6 +73,8 @@ export class UIManager {
   }
 
   private handlePrimaryAction(): void {
+    this.callbacks.onClick?.();
+
     if (this.buttonMode === 'start') {
       this.callbacks.onStart();
       return;
