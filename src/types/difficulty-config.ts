@@ -9,8 +9,6 @@ export interface DifficultyConfig {
   maxSpeed: number;
   /** Seconds between speed increases (per SC-008: 30 seconds) */
   speedIncreaseInterval: number;
-  /** Speed added per interval */
-  speedIncreaseAmount: number;
   /** Starting obstacle spawn rate (obstacles per second) */
   baseDensity: number;
   /** Maximum obstacle spawn rate */

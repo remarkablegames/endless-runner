@@ -132,15 +132,4 @@ export class GameState {
     this.startTime = Date.now();
     this.pauseTime = null;
   }
-
-  /**
-   * Reset the game state to Start.
-   * Used for returning to main menu.
-   */
-  resetToStart() {
-    this.state = GameStateEnum.Start;
-    this.score = 0;
-    this.startTime = 0;
-    this.pauseTime = null;
-  }
 }

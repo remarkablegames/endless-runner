@@ -20,7 +20,7 @@ export class ObstacleSystem {
     density: number,
     runDuration: number,
   ) {
-    this.obstacleSpawner.update(deltaTime, density, runDuration);
+    this.obstacleSpawner.update(deltaTime, speed, density, runDuration);
 
     for (const pooledObstacle of this.obstacleSpawner.getActiveObstacles()) {
       pooledObstacle.obstacle.moveForward(speed * deltaTime);

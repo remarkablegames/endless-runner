@@ -1,9 +1,6 @@
 import type { ObstacleType } from '../types/obstacle';
 
-/**
- * ObstacleSpawn - represents a single obstacle spawn point within a pattern.
- */
-export interface ObstacleSpawn {
+interface ObstacleSpawn {
   /** Lane offset from player's current lane (0 = same lane) */
   laneOffset: number;
   /** Z offset from spawn point */
@@ -12,33 +9,19 @@ export interface ObstacleSpawn {
   type: ObstacleType;
 }
 
-/**
- * ObstaclePattern class - represents a predefined arrangement of obstacles.
- * Patterns ensure fair, playable obstacle combinations.
- */
-export class ObstaclePattern {
-  private readonly id: string;
+class ObstaclePattern {
   private readonly spawns: ObstacleSpawn[];
   private readonly minRunDuration: number;
   private readonly difficulty: number;
 
   constructor(
-    id: string,
     spawns: ObstacleSpawn[],
     minRunDuration: number,
     difficulty: number,
   ) {
-    this.id = id;
     this.spawns = spawns;
     this.minRunDuration = minRunDuration;
     this.difficulty = Math.max(0, Math.min(1, difficulty));
-  }
-
-  /**
-   * Get the pattern ID.
-   */
-  getId(): string {
-    return this.id;
   }
 
   /**
@@ -93,30 +76,17 @@ export class ObstaclePattern {
  * Default obstacle patterns for spawning.
  */
 export const DEFAULT_PATTERNS: ObstaclePattern[] = [
-  // Single obstacle in player's lane (easy)
+  // Single center (easy)
+  new ObstaclePattern([{ laneOffset: 0, zOffset: 0, type: 'GROUND' }], 0, 0.2),
+
+  // Single left (easy)
+  new ObstaclePattern([{ laneOffset: -1, zOffset: 0, type: 'GROUND' }], 0, 0.2),
+
+  // Single right (easy)
+  new ObstaclePattern([{ laneOffset: 1, zOffset: 0, type: 'GROUND' }], 0, 0.2),
+
+  // Double sides with gap in middle (medium)
   new ObstaclePattern(
-    'single_center',
-    [{ laneOffset: 0, zOffset: 0, type: 'GROUND' }],
-    0,
-    0.2,
-  ),
-  // Single obstacle left (easy)
-  new ObstaclePattern(
-    'single_left',
-    [{ laneOffset: -1, zOffset: 0, type: 'GROUND' }],
-    0,
-    0.2,
-  ),
-  // Single obstacle right (easy)
-  new ObstaclePattern(
-    'single_right',
-    [{ laneOffset: 1, zOffset: 0, type: 'GROUND' }],
-    0,
-    0.2,
-  ),
-  // Two obstacles with gap in middle (medium)
-  new ObstaclePattern(
-    'double_sides',
     [
       { laneOffset: -1, zOffset: 0, type: 'GROUND' },
       { laneOffset: 1, zOffset: 0, type: 'GROUND' },
@@ -124,9 +94,9 @@ export const DEFAULT_PATTERNS: ObstaclePattern[] = [
     15,
     0.5,
   ),
+
   // Alternating obstacles (medium)
   new ObstaclePattern(
-    'alternating',
     [
       { laneOffset: 0, zOffset: 0, type: 'GROUND' },
       { laneOffset: -1, zOffset: -10, type: 'GROUND' },
@@ -134,23 +104,23 @@ export const DEFAULT_PATTERNS: ObstaclePattern[] = [
     25,
     0.6,
   ),
-  // Airborne obstacle requiring duck (medium)
+
+  // Airborne center obstacle requiring duck (medium)
   new ObstaclePattern(
-    'airborne_center',
     [{ laneOffset: 0, zOffset: 0, type: 'AIRBORNE' }],
     18,
     0.5,
   ),
+
   // Full lane barrier (hard)
   new ObstaclePattern(
-    'full_barrier',
     [{ laneOffset: 0, zOffset: 0, type: 'FULL_LANE' }],
     35,
     0.7,
   ),
+
   // Three obstacles in sequence (hard)
   new ObstaclePattern(
-    'triple_sequence',
     [
       { laneOffset: 0, zOffset: 0, type: 'GROUND' },
       { laneOffset: -1, zOffset: -8, type: 'GROUND' },

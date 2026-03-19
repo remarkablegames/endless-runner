@@ -1,11 +1,34 @@
 import type { DifficultyConfig } from '../types/difficulty-config';
 import type { LaneIndex } from '../types/input';
+import type { MusicTrackId } from '../types/music-track';
+
+/**
+ * Default music loop order. Playback wraps to the first item after the last.
+ */
+export const MUSIC_TRACKS: MusicTrackId[] = [
+  'intro2',
+  'verse1',
+  'chorus1',
+  'chorus3',
+  'chorus3',
+  'chorus2',
+  'outro1',
+  'verse1',
+  'verse2',
+  'bridge1',
+  'bridge2',
+  'chorus5',
+  'chorus3',
+  'chorus3',
+  'chorus4',
+  'outro1',
+];
 
 /**
  * Track dimensions in world units.
  */
 export const TRACK_WIDTH = 8;
-export const TRACK_LENGTH = 160;
+export const TRACK_LENGTH = 175;
 
 /**
  * Distance from the center lane to the outer lane centers.
@@ -25,51 +48,21 @@ export const LANE_X_POSITIONS: Record<LaneIndex, number> = {
 };
 
 /**
- * Base forward speed (world units per second).
- */
-export const BASE_SPEED = 12;
-
-/**
- * Maximum forward speed cap.
- */
-export const MAX_SPEED = 30;
-
-/**
- * Speed increase interval in seconds (per SC-008).
- */
-export const SPEED_INCREASE_INTERVAL = 30;
-
-/**
- * Speed amount added per interval.
- */
-export const SPEED_INCREASE_AMOUNT = 2.5;
-
-/**
- * Base obstacle spawn density (obstacles per second).
- */
-export const BASE_DENSITY = 0.85;
-
-/**
- * Maximum obstacle spawn density.
- */
-export const MAX_DENSITY = 3.0;
-
-/**
- * Duration to reach max density in seconds (per SC-009: 3 minutes).
- */
-export const DENSITY_RAMP_DURATION = 105;
-
-/**
  * Default difficulty configuration.
  */
 export const DIFFICULTY_CONFIG: DifficultyConfig = {
-  baseSpeed: BASE_SPEED,
-  maxSpeed: MAX_SPEED,
-  speedIncreaseInterval: SPEED_INCREASE_INTERVAL,
-  speedIncreaseAmount: SPEED_INCREASE_AMOUNT,
-  baseDensity: BASE_DENSITY,
-  maxDensity: MAX_DENSITY,
-  densityRampDuration: DENSITY_RAMP_DURATION,
+  /** Base forward speed (world units per second). */
+  baseSpeed: 12,
+  /** Maximum forward speed cap. Tuned to keep late-game reaction windows playable. */
+  maxSpeed: 35,
+  /** Speed increase interval in seconds (per SC-008). */
+  speedIncreaseInterval: 30,
+  /** Base obstacle spawn density (obstacles per second). */
+  baseDensity: 0.85,
+  /** Maximum obstacle spawn density. Kept below the point where hard patterns chain unfairly. */
+  maxDensity: 2.8,
+  /** Duration to reach max density in seconds so the hardest phase ramps in more gradually. */
+  densityRampDuration: 105,
 };
 
 /**
@@ -106,9 +99,14 @@ export const INPUT_LOCKOUT_DURATION = 50;
 
 /**
  * Obstacle spawn distance ahead of player.
- * Ensures 1+ second reaction time (per SC-004).
  */
-export const OBSTACLE_SPAWN_Z = 42;
+export const OBSTACLE_SPAWN_Z = 55;
+
+/**
+ * Minimum world-space gap between obstacle patterns.
+ * Prevents late-game spawn cadence from collapsing as speed increases.
+ */
+export const MIN_PATTERN_SPACING = 16;
 
 /**
  * Obstacle cleanup distance behind player.
