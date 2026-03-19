@@ -1,4 +1,8 @@
-import { OBSTACLE_CLEANUP_Z, OBSTACLE_SPAWN_Z } from '../config/game-constants';
+import {
+  MIN_PATTERN_SPACING,
+  OBSTACLE_CLEANUP_Z,
+  OBSTACLE_SPAWN_Z,
+} from '../config/game-constants';
 import { Lane } from '../entities/lane';
 import { DEFAULT_PATTERNS } from '../entities/obstacle-pattern';
 import { ObstaclePool, type PooledObstacle } from './obstacle-pool';
@@ -17,12 +21,21 @@ export class ObstacleSpawner {
   /**
    * Update obstacle spawning and cleanup.
    */
-  update(deltaTime: number, density: number, runDuration: number) {
+  update(
+    deltaTime: number,
+    speed: number,
+    density: number,
+    runDuration: number,
+  ) {
     this.spawnCooldown -= deltaTime;
 
     if (this.spawnCooldown <= 0) {
       this.spawnPattern(runDuration);
-      this.spawnCooldown = Math.max(0.3, 1 / Math.max(0.1, density));
+      this.spawnCooldown = Math.max(
+        0.3,
+        1 / Math.max(0.1, density),
+        MIN_PATTERN_SPACING / Math.max(1, speed),
+      );
     }
 
     for (const pooledObstacle of this.obstaclePool.getActive()) {
