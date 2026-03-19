@@ -61,9 +61,3 @@ import '@babylonjs/core/Audio/audioSceneComponent';
 
 import { Sound } from '@babylonjs/core/Audio/sound';
 ```
-
-**Boundaries:**
-
-- ✅ **Always:** Write to `src`, run lint and type check before commits, follow naming conventions
-- ⚠️ **Ask first:** Adding dependencies, modifying CI/CD config
-- 🚫 **Never:** Commit secrets or API keys, edit `node_modules`
