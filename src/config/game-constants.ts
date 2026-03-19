@@ -28,7 +28,7 @@ export const MUSIC_TRACKS: MusicTrackId[] = [
  * Track dimensions in world units.
  */
 export const TRACK_WIDTH = 8;
-export const TRACK_LENGTH = 160;
+export const TRACK_LENGTH = 175;
 
 /**
  * Distance from the center lane to the outer lane centers.
@@ -129,9 +129,8 @@ export const INPUT_LOCKOUT_DURATION = 50;
 
 /**
  * Obstacle spawn distance ahead of player.
- * Ensures 1+ second reaction time (per SC-004).
  */
-export const OBSTACLE_SPAWN_Z = 42;
+export const OBSTACLE_SPAWN_Z = 55;
 
 /**
  * Obstacle cleanup distance behind player.
