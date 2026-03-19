@@ -1,4 +1,3 @@
-import { LANE_X_POSITIONS } from '../config/game-constants';
 import type { LaneIndex } from '../types/input';
 
 /**
@@ -20,73 +19,11 @@ export class Lane {
   }
 
   /**
-   * Get the X position for this lane.
-   */
-  getXPosition(): number {
-    return LANE_X_POSITIONS[this.index];
-  }
-
-  /**
-   * Check if this is the leftmost lane.
-   */
-  isLeftmost(): boolean {
-    return this.index === 0;
-  }
-
-  /**
-   * Check if this is the rightmost lane.
-   */
-  isRightmost(): boolean {
-    return this.index === 2;
-  }
-
-  /**
-   * Check if this is the center lane.
-   */
-  isCenter(): boolean {
-    return this.index === 1;
-  }
-
-  /**
-   * Get the left neighbor lane, or undefined if leftmost.
-   */
-  getLeftNeighbor(): Lane | undefined {
-    if (this.isLeftmost()) {
-      return undefined;
-    }
-    return new Lane((this.index - 1) as LaneIndex);
-  }
-
-  /**
-   * Get the right neighbor lane, or undefined if rightmost.
-   */
-  getRightNeighbor(): Lane | undefined {
-    if (this.isRightmost()) {
-      return undefined;
-    }
-    return new Lane((this.index + 1) as LaneIndex);
-  }
-
-  /**
-   * Check if a lane index is valid.
-   */
-  static isValid(index: number): index is LaneIndex {
-    return index >= 0 && index <= 2;
-  }
-
-  /**
    * Clamp a value to valid lane indices.
    */
   static clamp(index: number): LaneIndex {
     if (index <= 0) return 0;
     if (index >= 2) return 2;
     return 1;
-  }
-
-  /**
-   * Get all lanes.
-   */
-  static getAll(): Lane[] {
-    return [new Lane(0), new Lane(1), new Lane(2)];
   }
 }

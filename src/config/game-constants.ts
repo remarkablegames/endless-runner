@@ -57,8 +57,6 @@ export const DIFFICULTY_CONFIG: DifficultyConfig = {
   maxSpeed: 30,
   /** Speed increase interval in seconds (per SC-008). */
   speedIncreaseInterval: 30,
-  /** Speed amount added per interval. */
-  speedIncreaseAmount: 2.5,
   /** Base obstacle spawn density (obstacles per second). */
   baseDensity: 0.85,
   /** Maximum obstacle spawn density. Kept below the point where hard patterns chain unfairly. */

@@ -7,7 +7,6 @@ import type { DifficultyConfig } from '../types/difficulty-config';
 export class DifficultyManager {
   private config: DifficultyConfig;
   private runDuration = 0;
-  private lastSpeedIncreaseTime = 0;
 
   constructor(config: DifficultyConfig) {
     this.config = config;
@@ -59,32 +58,9 @@ export class DifficultyManager {
   }
 
   /**
-   * Check if it's time for a speed increase.
-   * Returns true every speedIncreaseInterval seconds.
-   */
-  shouldIncreaseSpeed(): boolean {
-    const intervals = Math.floor(
-      this.runDuration / this.config.speedIncreaseInterval,
-    );
-    if (intervals > this.lastSpeedIncreaseTime) {
-      this.lastSpeedIncreaseTime = intervals;
-      return true;
-    }
-    return false;
-  }
-
-  /**
    * Reset the difficulty manager for a new run.
    */
   reset() {
     this.runDuration = 0;
-    this.lastSpeedIncreaseTime = 0;
-  }
-
-  /**
-   * Get the difficulty config.
-   */
-  getConfig(): DifficultyConfig {
-    return this.config;
   }
 }
