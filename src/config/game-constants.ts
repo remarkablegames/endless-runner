@@ -54,7 +54,7 @@ export const DIFFICULTY_CONFIG: DifficultyConfig = {
   /** Base forward speed (world units per second). */
   baseSpeed: 12,
   /** Maximum forward speed cap. Tuned to keep late-game reaction windows playable. */
-  maxSpeed: 30,
+  maxSpeed: 35,
   /** Speed increase interval in seconds (per SC-008). */
   speedIncreaseInterval: 30,
   /** Base obstacle spawn density (obstacles per second). */
