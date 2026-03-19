@@ -4,52 +4,30 @@ import { Sound } from '@babylonjs/core/Audio/sound';
 import type { Observer } from '@babylonjs/core/Misc/observable';
 import type { Scene } from '@babylonjs/core/scene';
 
-type MusicSection = 'intro' | 'verse' | 'bridge' | 'chorus';
-
-const MUSIC_VOLUME = 1.0;
-
-const SECTION_SEQUENCE: MusicSection[] = [
-  'verse',
-  'bridge',
-  'chorus',
-  'verse',
-  'chorus',
-  'bridge',
-  'chorus',
-];
-
-const SECTION_TRACK_PATHS: Record<MusicSection, string[]> = {
-  intro: ['music/intro1.mp3', 'music/intro2.mp3', 'music/intro3.mp3'],
-  verse: ['music/verse1.mp3', 'music/verse2.mp3', 'music/verse3.mp3'],
-  bridge: ['music/bridge1.mp3', 'music/bridge2.mp3', 'music/bridge3.mp3'],
-  chorus: [
-    'music/chorus1.mp3',
-    'music/chorus2.mp3',
-    'music/chorus3.mp3',
-    'music/chorus4.mp3',
-    'music/chorus5.mp3',
-  ],
-};
+import {
+  DEFAULT_MUSIC_SEQUENCE,
+  MUSIC_TRACK_PATHS,
+  type MusicTrackId,
+} from '../config/game-constants';
 
 /**
- * Manages background music playback and section sequencing.
+ * Manages background music playback and deterministic track sequencing.
  */
 export class MusicManager {
-  private readonly sections: Record<MusicSection, Sound[]>;
-  private readonly lastVariantIndex: Partial<Record<MusicSection, number>> = {};
+  private readonly sounds: Record<MusicTrackId, Sound>;
+  private readonly sequence: MusicTrackId[];
   private currentSound: Sound | null = null;
   private currentObserver: Observer<Sound> | null = null;
   private hasStarted = false;
-  private hasPlayedIntro = false;
   private sequenceIndex = 0;
 
-  constructor(scene: Scene) {
-    this.sections = {
-      intro: this.createSectionSounds(scene, 'intro'),
-      verse: this.createSectionSounds(scene, 'verse'),
-      bridge: this.createSectionSounds(scene, 'bridge'),
-      chorus: this.createSectionSounds(scene, 'chorus'),
-    };
+  constructor(scene: Scene, sequence: MusicTrackId[] = DEFAULT_MUSIC_SEQUENCE) {
+    if (sequence.length === 0) {
+      throw new Error('Music sequence must contain at least one track');
+    }
+
+    this.sequence = [...sequence];
+    this.sounds = this.createTrackSounds(scene);
   }
 
   play() {
@@ -58,13 +36,7 @@ export class MusicManager {
     }
 
     this.hasStarted = true;
-
-    if (!this.hasPlayedIntro) {
-      this.playSection('intro');
-      return;
-    }
-
-    this.playNextSection();
+    this.playCurrentTrack();
   }
 
   pause() {
@@ -80,13 +52,12 @@ export class MusicManager {
     }
 
     if (this.hasStarted && this.currentSound === null) {
-      this.playNextSection();
+      this.playCurrentTrack();
     }
   }
 
   stop() {
     this.hasStarted = false;
-    this.hasPlayedIntro = false;
     this.sequenceIndex = 0;
     this.stopCurrentSound();
   }
@@ -94,32 +65,22 @@ export class MusicManager {
   dispose() {
     this.stop();
 
-    for (const sounds of Object.values(this.sections)) {
-      for (const sound of sounds) {
-        sound.dispose();
-      }
+    for (const sound of Object.values(this.sounds)) {
+      sound.dispose();
     }
   }
 
-  private createSectionSounds(scene: Scene, section: MusicSection): Sound[] {
-    return SECTION_TRACK_PATHS[section].map((trackPath, index) => {
-      return new Sound(`${section}-${String(index)}`, trackPath, scene, null, {
-        autoplay: false,
-        loop: false,
-        spatialSound: false,
-        volume: MUSIC_VOLUME,
-      });
-    });
+  private createTrackSounds(scene: Scene): Record<MusicTrackId, Sound> {
+    return Object.fromEntries(
+      Object.entries(MUSIC_TRACK_PATHS).map(([trackId, trackPath]) => {
+        return [trackId, new Sound(trackId, trackPath, scene)];
+      }),
+    ) as Record<MusicTrackId, Sound>;
   }
 
-  private playNextSection() {
-    const nextSection = SECTION_SEQUENCE[this.sequenceIndex];
-    this.sequenceIndex = (this.sequenceIndex + 1) % SECTION_SEQUENCE.length;
-    this.playSection(nextSection);
-  }
-
-  private playSection(section: MusicSection) {
-    const sound = this.pickSectionVariant(section);
+  private playCurrentTrack() {
+    const trackId = this.sequence[this.sequenceIndex];
+    const sound = this.sounds[trackId];
 
     this.detachCurrentObserver();
     this.currentSound = sound;
@@ -131,46 +92,25 @@ export class MusicManager {
         return;
       }
 
-      if (section === 'intro') {
-        this.hasPlayedIntro = true;
-      }
-
-      this.playNextSection();
+      this.sequenceIndex = (this.sequenceIndex + 1) % this.sequence.length;
+      this.playCurrentTrack();
     });
 
     sound.stop();
     sound.play();
   }
 
-  private pickSectionVariant(section: MusicSection): Sound {
-    const sounds = this.sections[section];
-    const previousIndex = this.lastVariantIndex[section];
-
-    if (sounds.length === 1) {
-      this.lastVariantIndex[section] = 0;
-      return sounds[0];
-    }
-
-    let nextIndex = Math.floor(Math.random() * sounds.length);
-    if (sounds.length > 1 && nextIndex === previousIndex) {
-      nextIndex = (nextIndex + 1) % sounds.length;
-    }
-
-    this.lastVariantIndex[section] = nextIndex;
-    return sounds[nextIndex];
-  }
-
   private stopCurrentSound() {
     this.detachCurrentObserver();
 
-    if (this.currentSound !== null) {
+    if (this.currentSound) {
       this.currentSound.stop();
       this.currentSound = null;
     }
   }
 
   private detachCurrentObserver() {
-    if (this.currentSound !== null && this.currentObserver !== null) {
+    if (this.currentSound && this.currentObserver) {
       this.currentSound.onEndedObservable.remove(this.currentObserver);
       this.currentObserver = null;
     }

@@ -1,6 +1,22 @@
 import type { DifficultyConfig } from '../types/difficulty-config';
 import type { LaneIndex } from '../types/input';
 
+export type MusicTrackId =
+  | 'intro1'
+  | 'intro2'
+  | 'intro3'
+  | 'verse1'
+  | 'verse2'
+  | 'verse3'
+  | 'bridge1'
+  | 'bridge2'
+  | 'bridge3'
+  | 'chorus1'
+  | 'chorus2'
+  | 'chorus3'
+  | 'chorus4'
+  | 'chorus5';
+
 /**
  * Track dimensions in world units.
  */
@@ -71,6 +87,40 @@ export const DIFFICULTY_CONFIG: DifficultyConfig = {
   maxDensity: MAX_DENSITY,
   densityRampDuration: DENSITY_RAMP_DURATION,
 };
+
+/**
+ * Music track lookup for deterministic loop sequencing.
+ */
+export const MUSIC_TRACK_PATHS: Record<MusicTrackId, string> = {
+  intro1: 'music/intro1.mp3',
+  intro2: 'music/intro2.mp3',
+  intro3: 'music/intro3.mp3',
+  verse1: 'music/verse1.mp3',
+  verse2: 'music/verse2.mp3',
+  verse3: 'music/verse3.mp3',
+  bridge1: 'music/bridge1.mp3',
+  bridge2: 'music/bridge2.mp3',
+  bridge3: 'music/bridge3.mp3',
+  chorus1: 'music/chorus1.mp3',
+  chorus2: 'music/chorus2.mp3',
+  chorus3: 'music/chorus3.mp3',
+  chorus4: 'music/chorus4.mp3',
+  chorus5: 'music/chorus5.mp3',
+};
+
+/**
+ * Default music loop order. Playback wraps to the first item after the last.
+ */
+export const DEFAULT_MUSIC_SEQUENCE: MusicTrackId[] = [
+  'intro1',
+  'verse1',
+  'bridge1',
+  'chorus1',
+  'verse2',
+  'chorus2',
+  'bridge2',
+  'chorus3',
+];
 
 /**
  * Lane transition duration in seconds.
