@@ -1,7 +1,7 @@
 import type { Engine } from '@babylonjs/core/Engines/engine';
 import type { Scene } from '@babylonjs/core/scene';
 
-import { SoundManager } from './audio';
+import { MusicManager, SoundManager } from './audio';
 import { DIFFICULTY_CONFIG } from './config/game-constants';
 import { GameState } from './core/game-state';
 import { Player, PlayerVisual } from './entities';
@@ -30,12 +30,14 @@ export class Game {
   private readonly playerVisual: PlayerVisual;
   private readonly obstaclePool: ObstaclePool;
   private readonly obstacleSystem: ObstacleSystem;
+  private readonly musicManager: MusicManager;
   private readonly soundManager: SoundManager;
   private readonly uiManager: UIManager;
   private readonly renderSystem: RenderSystem;
   private readonly inputSystem: InputSystem;
 
   constructor(engine: Engine, scene: Scene) {
+    this.musicManager = new MusicManager(scene);
     this.soundManager = new SoundManager(scene);
     this.inputSystem = new InputSystem(this.player, this.soundManager);
     this.playerVisual = new PlayerVisual(this.player, scene);
@@ -88,6 +90,7 @@ export class Game {
     if (this.inputHandler.consumePauseRequested()) {
       if (this.gameState.getState() === GameStateEnum.Running) {
         this.gameState.pauseGame();
+        this.musicManager.pause();
         this.inputHandler.clearInputs();
       } else if (this.gameState.getState() === GameStateEnum.Paused) {
         this.resumeRun();
@@ -139,6 +142,7 @@ export class Game {
       )
     ) {
       this.soundManager.collide.play();
+      this.musicManager.pause();
       this.gameState.triggerGameOver();
       this.inputHandler.clearInputs();
     }
@@ -156,18 +160,21 @@ export class Game {
     if (this.gameState.getState() === GameStateEnum.Start) {
       this.resetRun();
       this.gameState.startGame();
+      this.musicManager.play();
       return;
     }
 
     if (this.gameState.getState() === GameStateEnum.GameOver) {
       this.resetRun();
       this.gameState.restartGame();
+      this.musicManager.resume();
     }
   }
 
   private resumeRun() {
     if (this.gameState.getState() === GameStateEnum.Paused) {
       this.gameState.resumeGame();
+      this.musicManager.resume();
       this.inputHandler.clearInputs();
     }
   }
@@ -175,6 +182,7 @@ export class Game {
   pauseOnBlur() {
     if (this.gameState.getState() === GameStateEnum.Running) {
       this.gameState.pauseGame();
+      this.musicManager.pause();
       this.inputHandler.clearInputs();
     }
   }
@@ -184,6 +192,7 @@ export class Game {
     this.uiManager.dispose();
     this.playerVisual.dispose();
     this.obstaclePool.dispose();
+    this.musicManager.dispose();
     this.soundManager.dispose();
   }
 }
