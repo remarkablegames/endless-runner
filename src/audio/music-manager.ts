@@ -4,29 +4,21 @@ import { Sound } from '@babylonjs/core/Audio/sound';
 import type { Observer } from '@babylonjs/core/Misc/observable';
 import type { Scene } from '@babylonjs/core/scene';
 
-import {
-  DEFAULT_MUSIC_SEQUENCE,
-  MUSIC_TRACK_PATHS,
-  type MusicTrackId,
-} from '../config/game-constants';
+import { MUSIC_TRACKS } from '../config/game-constants';
+import type { MusicTrackId } from '../types/music-track';
 
 /**
  * Manages background music playback and deterministic track sequencing.
  */
 export class MusicManager {
   private readonly sounds: Record<MusicTrackId, Sound>;
-  private readonly sequence: MusicTrackId[];
+  private readonly tracks = MUSIC_TRACKS.slice();
   private currentSound: Sound | null = null;
   private currentObserver: Observer<Sound> | null = null;
   private hasStarted = false;
-  private sequenceIndex = 0;
+  private trackIndex = 0;
 
-  constructor(scene: Scene, sequence: MusicTrackId[] = DEFAULT_MUSIC_SEQUENCE) {
-    if (sequence.length === 0) {
-      throw new Error('Music sequence must contain at least one track');
-    }
-
-    this.sequence = [...sequence];
+  constructor(scene: Scene) {
     this.sounds = this.createTrackSounds(scene);
   }
 
@@ -58,7 +50,7 @@ export class MusicManager {
 
   stop() {
     this.hasStarted = false;
-    this.sequenceIndex = 0;
+    this.trackIndex = 0;
     this.stopCurrentSound();
   }
 
@@ -71,17 +63,21 @@ export class MusicManager {
   }
 
   private createTrackSounds(scene: Scene): Record<MusicTrackId, Sound> {
+    const uniqueTrackIds = [...new Set(MUSIC_TRACKS)];
+
     return Object.fromEntries(
-      Object.entries(MUSIC_TRACK_PATHS).map(([trackId, trackPath]) => {
-        return [trackId, new Sound(trackId, trackPath, scene)];
-      }),
+      uniqueTrackIds.map((trackId) => [
+        trackId,
+        new Sound(trackId, `music/${trackId}.mp3`, scene),
+      ]),
     ) as Record<MusicTrackId, Sound>;
   }
 
   private playCurrentTrack() {
-    const trackId = this.sequence[this.sequenceIndex];
+    const trackId = this.tracks[this.trackIndex];
     const sound = this.sounds[trackId];
 
+    this.stopInactiveSounds(sound);
     this.detachCurrentObserver();
     this.currentSound = sound;
     this.currentObserver = sound.onEndedObservable.addOnce(() => {
@@ -92,7 +88,7 @@ export class MusicManager {
         return;
       }
 
-      this.sequenceIndex = (this.sequenceIndex + 1) % this.sequence.length;
+      this.trackIndex = (this.trackIndex + 1) % this.tracks.length;
       this.playCurrentTrack();
     });
 
@@ -106,6 +102,14 @@ export class MusicManager {
     if (this.currentSound) {
       this.currentSound.stop();
       this.currentSound = null;
+    }
+  }
+
+  private stopInactiveSounds(activeSound: Sound) {
+    for (const sound of Object.values(this.sounds)) {
+      if (sound !== activeSound) {
+        sound.stop();
+      }
     }
   }
 
