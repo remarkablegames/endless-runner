@@ -1,7 +1,7 @@
 import { createEngine, createScene } from './core';
 import { Game } from './game';
 
-const canvas = document.querySelector<HTMLCanvasElement>('#game');
+const canvas = document.querySelector('canvas');
 
 if (!canvas) {
   throw new Error('Game canvas not found');
