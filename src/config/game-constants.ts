@@ -7,25 +7,20 @@ import type { MusicTrackId } from '../types/music-track';
  */
 export const MUSIC_TRACKS: MusicTrackId[] = [
   'intro2',
-  'intro2',
-  'verse1',
   'verse1',
   'chorus1',
+  'chorus3',
+  'chorus3',
   'chorus2',
-  'chorus3',
-  'chorus3',
-  'chorus1',
-  'outro2',
   'outro1',
   'verse1',
   'verse2',
   'bridge1',
   'bridge2',
-  'chorus4',
   'chorus5',
   'chorus3',
   'chorus3',
-  'outro1',
+  'chorus4',
   'outro1',
 ];
 

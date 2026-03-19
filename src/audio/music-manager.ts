@@ -7,12 +7,17 @@ import type { Scene } from '@babylonjs/core/scene';
 import { MUSIC_TRACKS } from '../config/game-constants';
 import type { MusicTrackId } from '../types/music-track';
 
+interface SequencedSound {
+  sound: Sound;
+  trackId: MusicTrackId;
+}
+
 /**
  * Manages background music playback and deterministic track sequencing.
  */
 export class MusicManager {
-  private readonly sounds: Record<MusicTrackId, Sound>;
   private readonly tracks = MUSIC_TRACKS.slice();
+  private readonly sounds: SequencedSound[];
   private currentSound: Sound | null = null;
   private currentObserver: Observer<Sound> | null = null;
   private hasStarted = false;
@@ -57,25 +62,25 @@ export class MusicManager {
   dispose() {
     this.stop();
 
-    for (const sound of Object.values(this.sounds)) {
+    for (const { sound } of this.sounds) {
       sound.dispose();
     }
   }
 
-  private createTrackSounds(scene: Scene): Record<MusicTrackId, Sound> {
-    const uniqueTrackIds = [...new Set(MUSIC_TRACKS)];
-
-    return Object.fromEntries(
-      uniqueTrackIds.map((trackId) => [
-        trackId,
-        new Sound(trackId, `music/${trackId}.mp3`, scene),
-      ]),
-    ) as Record<MusicTrackId, Sound>;
+  private createTrackSounds(scene: Scene): SequencedSound[] {
+    return this.tracks.map((trackId, index) => ({
+      trackId,
+      sound: new Sound(
+        `${trackId}-${String(index)}`,
+        `music/${trackId}.mp3`,
+        scene,
+      ),
+    }));
   }
 
   private playCurrentTrack() {
-    const trackId = this.tracks[this.trackIndex];
-    const sound = this.sounds[trackId];
+    const currentTrack = this.sounds[this.trackIndex];
+    const sound = currentTrack.sound;
 
     this.stopInactiveSounds(sound);
     this.detachCurrentObserver();
@@ -106,7 +111,7 @@ export class MusicManager {
   }
 
   private stopInactiveSounds(activeSound: Sound) {
-    for (const sound of Object.values(this.sounds)) {
+    for (const { sound } of this.sounds) {
       if (sound !== activeSound) {
         sound.stop();
       }
