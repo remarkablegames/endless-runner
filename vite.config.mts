@@ -6,8 +6,6 @@ import { createHtmlPlugin } from 'vite-plugin-html';
 export default defineConfig({
   build: {
     assetsInlineLimit: 0,
-    target: 'esnext',
-    minify: 'oxc',
     rolldownOptions: {
       output: {
         codeSplitting: {
@@ -21,7 +19,9 @@ export default defineConfig({
       },
     },
   },
+
   plugins: [createHtmlPlugin()],
+
   resolve: {
     alias: {
       src: resolve(__dirname, './src'),
