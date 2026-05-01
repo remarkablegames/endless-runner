@@ -19,7 +19,7 @@
     "@babylonjs/core": "9.5.0",
     "@tailwindcss/postcss": "4.2.4",
     "jsx-dom": "8.1.6",
-    "postcss": "8.5.12",
+    "postcss": "8.5.13",
     "tailwindcss": "4.2.4"
   },
   "devDependencies": {
