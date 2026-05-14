@@ -16,7 +16,7 @@
   },
   "homepage": "https://remarkablegames.org/endless-runner/",
   "dependencies": {
-    "@babylonjs/core": "9.6.2",
+    "@babylonjs/core": "9.7.0",
     "@tailwindcss/postcss": "4.3.0",
     "jsx-dom": "8.1.6",
     "postcss": "8.5.14",
