@@ -37,7 +37,7 @@
     "prettier-plugin-tailwindcss": "0.8.0",
     "typescript": "5.9.3",
     "typescript-eslint": "8.61.1",
-    "vite": "8.0.16",
+    "vite": "8.1.0",
     "vite-plugin-html": "3.2.2"
   },
   "private": true,
