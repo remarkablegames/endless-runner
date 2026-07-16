@@ -20,7 +20,7 @@
     "@tailwindcss/postcss": "4.3.2",
     "jsx-dom": "8.1.6",
     "postcss": "8.5.19",
-    "tailwindcss": "4.3.2"
+    "tailwindcss": "4.3.3"
   },
   "devDependencies": {
     "@commitlint/cli": "21.2.1",
