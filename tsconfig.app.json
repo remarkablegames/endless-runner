@@ -18,9 +18,8 @@
     "noEmit": true,
 
     /* Path aliases */
-    "baseUrl": ".",
     "paths": {
-      "src/*": ["src/*"]
+      "src/*": ["./src/*"]
     },
 
     /* Linting */
