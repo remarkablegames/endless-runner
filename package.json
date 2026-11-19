@@ -13,7 +13,7 @@
     "start": "vite --open"
   },
   "dependencies": {
-    "@babylonjs/core": "9.36.0",
+    "@babylonjs/core": "9.37.0",
     "@tailwindcss/postcss": "4.3.5",
     "jsx-dom": "8.1.6",
     "postcss": "8.5.33",
